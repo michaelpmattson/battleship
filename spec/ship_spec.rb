@@ -36,4 +36,37 @@ RSpec.describe Ship do
       expect(submarine.health).to eq(2)
     end
   end
+
+  context '#sunk?' do
+    it 'starts as false' do
+      cruiser = Ship.new("Cruiser", 3)
+
+      expect(cruiser.sunk?).to be(false)
+    end
+
+    it 'text' do
+      cruiser = Ship.new("Cruiser", 3)
+
+      cruiser.hit
+      cruiser.hit
+
+      expect(cruiser.sunk?).to be(false)
+
+      cruiser.hit
+
+      expect(cruiser.sunk?).to be(true)
+    end
+  end
+
+  context '#hit' do
+    it 'subtracts 1 from health' do
+      cruiser = Ship.new("Cruiser", 3)
+
+      expect(cruiser.health).to eq(3)
+
+      cruiser.hit
+
+      expect(cruiser.health).to eq(2)
+    end
+  end
 end
