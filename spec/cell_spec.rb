@@ -29,4 +29,39 @@ RSpec.describe Cell do
       expect(cell.empty?).to be(true)
     end
   end
+
+  context '#place_ship' do
+    it 'places a ship on the cell' do
+      cell = Cell.new("B4")
+      cruiser = Ship.new("Cruiser", 3)
+
+      cell.place_ship(cruiser)
+
+      expect(cell.ship).to be(cruiser)
+    end
+
+    it 'fills the cell' do
+      cell = Cell.new("B4")
+      cruiser = Ship.new("Cruiser", 3)
+
+      cell.place_ship(cruiser)
+
+      expect(cell.empty?).to be(false)
+    end
+
+    it 'can not place if not empty' do
+      cruiser = Ship.new("Cruiser", 3)
+      cell = Cell.new("B4")
+    
+      cell.place_ship(cruiser)
+
+      expect(cell.ship).to be(cruiser)
+
+      submarine = Ship.new("Submarine", 2)
+
+      cell.place_ship(submarine)
+
+      expect(cell.ship).to be(cruiser)
+    end
+  end
 end
