@@ -64,4 +64,55 @@ RSpec.describe Cell do
       expect(cell.ship).to be(cruiser)
     end
   end
+
+  context '#fired_upon?' do
+    it 'checks if fired upon' do
+      cruiser = Ship.new("Cruiser", 3)
+      cell = Cell.new("B4")
+
+      cell.place_ship(cruiser)
+
+      expect(cell.fired_upon?).to be(false)
+    end
+  end
+  
+  context '#fire_upon' do
+    it 'makes cell fired upon' do
+      cruiser = Ship.new("Cruiser", 3)
+      cell = Cell.new("B4")
+
+      cell.place_ship(cruiser)
+      cell.fire_upon
+
+      expect(cell.fired_upon?).to be(true)
+    end
+
+    it 'makes ship health decrease by 1' do
+      cruiser = Ship.new("Cruiser", 3)
+      cell = Cell.new("B4")
+
+      cell.place_ship(cruiser)
+
+      expect(cell.ship.health).to eq(3)
+
+      cell.fire_upon
+
+      expect(cell.ship.health).to eq(2)
+    end
+
+    it 'can not fire upon same cell twice' do
+      cruiser = Ship.new("Cruiser", 3)
+      cell = Cell.new("B4")
+
+      cell.place_ship(cruiser)
+
+      cell.fire_upon
+
+      expect(cell.ship.health).to eq(2)
+
+      cell.fire_upon
+
+      expect(cell.ship.health).to eq(2)
+    end
+  end
 end
