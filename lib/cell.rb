@@ -23,7 +23,21 @@ class Cell
   def fire_upon
     unless fired_upon?
       @fired_upon = true
-      @ship.hit 
+      @ship.hit unless @ship.nil? # want to add test for @ship.nil? edge case
     end
+  end
+
+  def render(user_ship = false)
+    return "S" if user_ship
+    
+    if @ship.nil? == false && fired_upon? && @ship.sunk?
+      "X"
+    elsif @ship.nil? == false && fired_upon?
+      "H"
+    elsif fired_upon?
+      "M"
+    else
+      "."
+    end 
   end
 end
