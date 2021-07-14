@@ -30,4 +30,8 @@ class Board
   def add_to_cells(key)
     @cells[key] = Cell.new(key)
   end
+
+  def validate_coordinate?(coordinate)
+    @cells.keys.include?(coordinate)
+  end
 end

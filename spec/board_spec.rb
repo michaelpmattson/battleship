@@ -93,4 +93,13 @@ RSpec.describe Board do
       # end
     end
   end
+
+  context '#validate_coordinate?(coordinate)' do
+    it 'validates coordinates' do
+      board = Board.new
+
+      expect(board.validate_coordinate?("A1")).to be true
+      expect(board.validate_coordinate?("E1")).to be false
+    end
+  end
 end
