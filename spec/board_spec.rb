@@ -21,7 +21,22 @@ RSpec.describe Board do
   end
 
   context '#make_cells' do
+    it '#adds all rows to hash' do
+      board = Board.new
 
+      expect(board.cells).to eq({})
+
+      board.make_cells(board.alpha_array)
+
+      expect(board.cells).not_to eq({})
+
+      expect(board.cells.keys).to eq(["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4" ,"D1", "D2", "D3", "D4"])
+
+      board.cells.each do |coordinate, cell|
+        expect(cell).to be_instance_of(Cell)
+      end
+      require "pry"; binding.pry
+    end
   end
 
   context 'alpha_array' do
