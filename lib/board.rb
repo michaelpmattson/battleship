@@ -9,6 +9,15 @@ class Board
 
   end
 
+  def make_row(alpha)
+    count = 0
+    alpha_array.length.times do
+      count += 1
+      key = make_key(alpha, count)
+      add_to_cells(key)
+    end
+  end
+
   def alpha_array
     ["A", "B", "C", "D"]
   end
