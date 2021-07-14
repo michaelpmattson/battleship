@@ -8,7 +8,7 @@ RSpec.describe Board do
       expect(board).to be_instance_of(Board)
     end
 
-    xit 'has a cells hash with Cell objects as values' do
+    it 'has a cells hash with Cell objects as values' do
       board = Board.new
 
       expect(board.cells).to be_a(Hash)
@@ -35,7 +35,6 @@ RSpec.describe Board do
       board.cells.each do |coordinate, cell|
         expect(cell).to be_instance_of(Cell)
       end
-      require "pry"; binding.pry
     end
   end
 
@@ -73,7 +72,7 @@ RSpec.describe Board do
     end
 
     # not sure how to test this yet.
-    xit 'adds only new Cell objects as values' do
+    it 'adds only new Cell objects as values' do
 
     end
   end
