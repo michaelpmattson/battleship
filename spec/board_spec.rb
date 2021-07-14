@@ -62,4 +62,15 @@ RSpec.describe Board do
 
     end
   end
+
+  context '#make_row(alpha)' do
+    it 'makes a row for the alpha' do
+      board = Board.new
+      # Below is set to "A"
+      alpha = board.alpha_array[0]
+      row = make_row(alpha)
+
+      expect(row).to eq(["A1", "A2", "A3", "A4"])      
+    end
+  end
 end
