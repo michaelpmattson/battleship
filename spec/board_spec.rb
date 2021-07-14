@@ -64,13 +64,22 @@ RSpec.describe Board do
   end
 
   context '#make_row(alpha)' do
-    it 'makes a row for the alpha' do
+    it 'adds a row of cells to hash' do
       board = Board.new
+
+      expect(board.cells).to eq({})
+
       # Below is set to "A"
       alpha = board.alpha_array[0]
-      row = make_row(alpha)
+      board.make_row(alpha)
 
-      expect(row).to eq(["A1", "A2", "A3", "A4"])      
+      expect(board.cells).not_to eq({})
+
+      expect(board.cells.keys).to eq(["A1", "A2", "A3", "A4"])
+
+      board.cells.each do |coordinate, cell|
+        expect(cell).to be_instance_of(Cell)
+      end
     end
   end
 end
