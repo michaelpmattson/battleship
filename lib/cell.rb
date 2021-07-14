@@ -9,7 +9,7 @@ class Cell
   end
 
   def empty?
-    @ship.nil?  
+    @ship.nil?
   end
 
   def place_ship(ship)
@@ -29,15 +29,15 @@ class Cell
 
   def render(user_ship = false)
     return "S" if user_ship
-    
-    if @ship.nil? == false && fired_upon? && @ship.sunk?
+
+    if !@ship.nil? && fired_upon? && @ship.sunk?
       "X"
-    elsif @ship.nil? == false && fired_upon?
+    elsif !@ship.nil? && fired_upon?
       "H"
     elsif fired_upon?
       "M"
     else
       "."
-    end 
+    end
   end
 end
