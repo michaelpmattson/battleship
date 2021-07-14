@@ -33,6 +33,18 @@ RSpec.describe Board do
     end
   end
 
+  context '#make_key(alpha, count)' do
+    it 'combines alpha string and count integer to key string' do
+      board = Board.new
+      alpha = "A"
+      count = 1
+
+      key = board.make_key(alpha, count)
+
+      expect(key).to eq("A1")
+    end
+  end
+
   context '#add_to_cells(key)' do
     it 'adds a new key to hash' do
       board = Board.new
