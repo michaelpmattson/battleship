@@ -19,4 +19,17 @@ RSpec.describe Board do
       expect(all_cells).to be(true) # confirms all values are Cell objects
     end
   end
+
+  context '#make_cells' do
+
+  end
+
+  context 'alpha_array' do
+    it 'makes an array of strings from A to D' do
+      board = Board.new
+      alpha = board.alpha_array
+
+      expect(alpha).to eq(["A", "B", "C", "D"])
+    end
+  end
 end
