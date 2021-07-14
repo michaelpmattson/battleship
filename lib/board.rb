@@ -3,10 +3,11 @@ class Board
 
   def initialize
     @cells = {}
+    make_cells(alpha_array)
   end
 
   def make_cells(array)
-    array.each { |alpha| make_row(alpha) }
+    val = array.each { |alpha| make_row(alpha) }
   end
 
   def make_row(alpha)
