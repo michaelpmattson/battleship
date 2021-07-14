@@ -5,8 +5,8 @@ class Board
     @cells = {}
   end
 
-  def make_cells
-
+  def make_cells(array)
+    array.each { |alpha| make_row(alpha) }
   end
 
   def make_row(alpha)
