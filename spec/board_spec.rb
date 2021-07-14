@@ -32,4 +32,22 @@ RSpec.describe Board do
       expect(alpha).to eq(["A", "B", "C", "D"])
     end
   end
+
+  context '#add_to_cells(key)' do
+    it 'adds a new key to hash' do
+      board = Board.new
+      key_1 = "A1"
+
+      expect(board.cells.keys.include?("A1")).to be(false)
+
+      board.add_to_cells(key_1)
+
+      expect(board.cells.keys.include?("A1")).to be(true)
+    end
+
+    # not sure how to test this yet.
+    xit 'adds only new Cell objects as values' do
+
+    end
+  end
 end
