@@ -240,4 +240,12 @@ RSpec.describe Board do
       expect(board.top_row).to eq("  1 2 3 4 \n")
     end
   end
+
+  context '#other_rows' do
+    it 'returns other_rows string' do
+      board = Board.new
+
+      expect(board.other_rows).to eq("A . . . . \nB . . . . \nC . . . . \nD . . . . \n")
+    end
+  end
 end
