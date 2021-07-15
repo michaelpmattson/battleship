@@ -224,4 +224,12 @@ RSpec.describe Board do
       expect(board.no_ship(coordinates)).to be(false)
     end
   end
+
+  context '#render' do
+    it 'renders the board' do
+      board = Board.new
+
+      expect(board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
+    end
+  end
 end
