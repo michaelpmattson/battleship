@@ -37,8 +37,12 @@ class Board
     @cells.keys.include?(coordinate)
   end
 
+  def valid_cells?(coordinates)
+    coordinates.all? { |coordinate| validate_coordinate?(coordinate)}
+  end
+
   def valid_placement?(ship, coordinates)
-    valid_length?(ship, coordinates)  && consecutive_coordinates?(coordinates)
+    valid_length?(ship, coordinates) && consecutive_coordinates?(coordinates) && valid_cells?(coordinates)
   end
 
   def valid_length?(ship, coordinates)
@@ -49,7 +53,7 @@ class Board
     if coordinates.all? { |coordinate| coordinate[0] == coordinates[0][0] }
       consecutive_numbers?(coordinates)
     elsif coordinates.all? { |coordinate| coordinate[1] == coordinates[0][1] }
-      
+      consecutive_letters?(coordinates)
     else
       false
     end
@@ -64,4 +68,6 @@ class Board
     letters = coordinates.map { |coordinate| coordinate[0] }
     letters == (letters.first..letters.last).to_a
   end
+
+  
 end
