@@ -42,7 +42,7 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    valid_length?(ship, coordinates) && consecutive_coordinates?(coordinates) && valid_cells?(coordinates)
+    valid_length?(ship, coordinates) && consecutive_coordinates?(coordinates) && valid_cells?(coordinates) && no_ship(coordinates)
   end
 
   def valid_length?(ship, coordinates)
@@ -73,5 +73,9 @@ class Board
     coordinates.each do |coordinate|
       @cells[coordinate].place_ship(ship)
     end
+  end
+
+  def no_ship(coordinates)
+    coordinates.all? { |coordinate| @cells[coordinate].empty? }
   end
 end
