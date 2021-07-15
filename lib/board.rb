@@ -84,13 +84,12 @@ class Board
   end
 
   def top_row
-    columns = (1..alpha_array.length).to_a
-    string = "  #{columns.join(' ')} \n"
+    "  #{nums_array.join(' ')} \n"
   end
 
-  def other_rows
+  # def other_rows
 
-  end
+  # end
 
   def nums_array
     (1..alpha_array.length).to_a
