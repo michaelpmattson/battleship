@@ -209,4 +209,19 @@ RSpec.describe Board do
       expect(cell_3.ship).to eq(cruiser)
     end
   end
+
+  context '#no_ship(coordinates)' do
+    it 'confirms there is no ship' do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+
+      coordinates = ["A1", "A2", "A3"]
+
+      expect(board.no_ship(coordinates)).to be(true)
+
+      board.place(cruiser, ["A1", "A2", "A3"])
+
+      expect(board.no_ship(coordinates)).to be(false)
+    end
+  end
 end
