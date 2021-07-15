@@ -79,20 +79,24 @@ class Board
     coordinates.all? { |coordinate| @cells[coordinate].empty? }
   end
 
-  def render
-    top_row + other_rows
+  def render(arg = false)
+    top_row + other_rows(arg)
   end
 
   def top_row
     "  #{nums_array.join(' ')} \n"
   end
 
-  def other_rows
+  def other_rows(arg = false)
     string = ""
     alpha_array.each do |alpha|
       string += "#{alpha} "
       nums_array.each do |num|
-        string += "#{cells[alpha + num.to_s].render} "
+        if cells[alpha + num.to_s].ship.nil?
+          string += "#{cells[alpha + num.to_s].render} "
+        else
+          string += "#{cells[alpha + num.to_s].render(arg)} "
+        end
       end
       string += "\n"
     end
