@@ -232,4 +232,12 @@ RSpec.describe Board do
       expect(board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
     end
   end
+
+  context '#top_row' do
+    it 'returns a string of the top row' do
+      board = Board.new
+
+      expect(board.top_row).to eq("  1 2 3 4 \n")
+    end
+  end
 end
