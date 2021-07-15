@@ -87,9 +87,17 @@ class Board
     "  #{nums_array.join(' ')} \n"
   end
 
-  # def other_rows
-
-  # end
+  def other_rows
+    string = ""
+    alpha_array.each do |alpha|
+      string += "#{alpha} "
+      nums_array.each do |num|
+        string += "#{cells[alpha + num.to_s].render} "
+      end
+      string += "\n"
+    end
+    string
+  end
 
   def nums_array
     (1..alpha_array.length).to_a
