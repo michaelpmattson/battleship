@@ -248,4 +248,12 @@ RSpec.describe Board do
       expect(board.other_rows).to eq("A . . . . \nB . . . . \nC . . . . \nD . . . . \n")
     end
   end
+
+  context '#nums_array' do
+    it 'array of column numbers' do
+      board = Board.new
+
+      expect(board.nums_array).to eq([1, 2, 3, 4])
+    end
+  end
 end
