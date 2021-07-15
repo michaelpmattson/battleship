@@ -193,7 +193,7 @@ RSpec.describe Board do
     end
   end
 
-  context '#place(ship)' do
+  context '#place(ship, coordinates)' do
     it 'places ship on cells' do
       board = Board.new
       cruiser = Ship.new("Cruiser", 3)
