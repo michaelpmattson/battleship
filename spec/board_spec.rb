@@ -1,4 +1,5 @@
 require './lib/board'
+require './lib/ship'
 
 RSpec.describe Board do
   context '#initialize' do
@@ -102,4 +103,85 @@ RSpec.describe Board do
       expect(board.validate_coordinate?("E1")).to be false
     end
   end
+
+  context '#valid_placement?(ship, coordinates)' do
+    it 'validates placement' do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+      submarine = Ship.new("Submarine", 2)
+
+      expect(board.valid_placement?(cruiser, ["A1", "A2"])).to be false
+    end
+  end
+
+  context '#valid_length?(ship, coordinates)' do
+    it 'valid length' do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+      submarine = Ship.new("Submarine", 2)
+
+      expect(board.valid_length?(cruiser, ["A1", "A2", "A3"])).to be true
+    end
+
+    it 'invalid length' do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+      submarine = Ship.new("Submarine", 2)
+
+      expect(board.valid_length?(cruiser, ["A2", "A3"])).to be false
+    end
+  end
+
+  context '#consecutive_coordinates?(coordinates)' do
+    it 'consecutive coordinates' do
+      board = Board.new
+
+      expect(board.consecutive_coordinates?(["A1", "A2", "A3"])).to be true
+      expect(board.consecutive_coordinates?(["A1", "B1", "C1"])).to be true
+    end
+
+    it 'inconsecutive coordinates' do
+      board = Board.new
+
+      expect(board.consecutive_coordinates?(["A1", "A2", "A4"])).to be false
+      expect(board.consecutive_coordinates?(["A1", "D1", "C1"])).to be false
+      expect(board.consecutive_coordinates?(["A3", "A2", "A1"])).to be false
+    end
+  end
+
+  context '#consecutive_numbers?(coordinates)' do
+    it 'consecutive numbers' do
+      board = Board.new
+
+      expect(board.consecutive_numbers?(["A1", "A2", "A3"])).to be true
+      expect(board.consecutive_numbers?(["C2", "C3", "C4"])).to be true
+    end
+
+    it 'inconsecutive numbers' do
+      board = Board.new
+
+      expect(board.consecutive_numbers?(["A1", "A2", "A4"])).to be false
+      expect(board.consecutive_numbers?(["A1", "D1", "C1"])).to be false
+      expect(board.consecutive_numbers?(["A3", "A2", "A1"])).to be false
+    end
+  end
+
+  context '#consecutive_letters?(coordinates)' do
+    it 'consecutive letters' do
+      board = Board.new
+
+      expect(board.consecutive_letters?(["A1", "B1", "C1"])).to be true
+      expect(board.consecutive_letters?(["B2", "C2", "D2"])).to be true
+    end
+
+    it 'inconsecutive letters' do
+      board = Board.new
+
+      expect(board.consecutive_letters?(["A4", "C4", "B4"])).to be false
+      expect(board.consecutive_letters?(["A1", "D1", "C1"])).to be false
+      expect(board.consecutive_letters?(["B2", "A2"])).to be false
+    end
+  end
 end
+
+
