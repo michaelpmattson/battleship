@@ -182,6 +182,16 @@ RSpec.describe Board do
       expect(board.consecutive_letters?(["B2", "A2"])).to be false
     end
   end
+
+  # validates cells are on our board
+  context '#valid_cells?(coordinates)' do
+    it 'valid cells' do
+      board = Board.new
+
+      expect(board.valid_cells?(["A2", "A3", "A4"])).to be true
+      expect(board.valid_cells?(["B3", "B4", "B5"])).to be false
+    end
+  end
 end
 
 
