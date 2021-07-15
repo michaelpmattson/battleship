@@ -80,11 +80,19 @@ class Board
   end
 
   def render
-    top_row
+    top_row + other_rows
   end
 
   def top_row
     columns = (1..alpha_array.length).to_a
     string = "  #{columns.join(' ')} \n"
+  end
+
+  def other_rows
+
+  end
+
+  def nums_array
+    (1..alpha_array.length).to_a
   end
 end
