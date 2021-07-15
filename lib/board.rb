@@ -69,5 +69,9 @@ class Board
     letters == (letters.first..letters.last).to_a
   end
 
-  
+  def place(ship, coordinates)
+    coordinates.each do |coordinate|
+      @cells[coordinate].place_ship(ship)
+    end
+  end
 end
