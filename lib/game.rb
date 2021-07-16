@@ -54,16 +54,28 @@ class Game
   end
 
   def get_robot_placement
-
+    cell_num = random_cell_num
+    zero_or_one == 0 ? orient_right(ship, cell_num) : orient_down(ship, cell_num)
   end
 
-  def random_cell
+  def random_cell_num
     num = rand(robot_board.cells.keys.count)
     robot_board.cells.keys[num]
   end
 
   def zero_or_one
     rand(2)
+  end
+
+  def orient_right(ship, cell_num)
+    ship_array = []
+    alpha = cell_num.delete("0-9")
+    num = cell_num.delete("^0-9").to_i
+    ship.length.times do
+      ship_array << alpha + num.to_s
+      num += 1
+    end
+    ship_array
   end
 
   # def get_human_placement

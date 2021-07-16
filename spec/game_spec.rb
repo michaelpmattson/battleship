@@ -51,11 +51,11 @@ RSpec.describe Game do
 
   end
 
-  context '#random_cell' do
-    it 'random cell' do
+  context '#random_cell_num' do
+    xit 'random cell' do
       game    = Game.new
-      game.random_cell
-      # expect(game.random_cell).to eq(  i dunnoooooooo
+      game.random_cell_num
+      # expect(game.random_cell_num).to eq(  i dunnoooooooo
     end
   end
 
@@ -65,6 +65,24 @@ RSpec.describe Game do
       num = game.zero_or_one
 
       expect(num == 0 || num == 1).to be(true)
+    end
+  end
+
+  context '#orient_right(ship, cell_num)' do
+    it 'adds cells to the right' do
+      game       = Game.new
+      cruiser    = Ship.new("Cruiser", 3)
+      cell_num_1 = "A1"
+      cell_num_2 = "AB12"
+
+      expect(game.orient_right(cruiser, cell_num_1)).to eq(["A1", "A2", "A3"])
+      expect(game.orient_right(cruiser, cell_num_2)).to eq(["AB12", "AB13", "AB14"])
+    end
+  end
+
+  context '#orient_down(cell)' do
+    xit 'adds cells down' do
+
     end
   end
 end
