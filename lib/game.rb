@@ -1,10 +1,12 @@
+require './lib/board'
+
 class Game
   attr_reader :human_board,
               :robot_board
 
-  def initialize(human_board, robot_board)
-    @human_board  = human_board
-    @robot_board = robot_board
+  def initialize
+    @human_board = Board.new
+    @robot_board = Board.new
   end
 
   def start

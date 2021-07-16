@@ -6,27 +6,16 @@ require './lib/cell'
 RSpec.describe Game do
   context '#initialize' do
     it 'exists' do
-      board_1 = Board.new
-      board_2 = Board.new
-      game    = Game.new(board_1, board_2)
+      game    = Game.new
 
       expect(game).to be_instance_of(Game)
     end
 
     it 'has attributes' do
-      board_1 = Board.new
-      board_2 = Board.new
-      game    = Game.new(board_1, board_2)
+      game    = Game.new
 
-      expect(game.human_board).to eq(board_1)
-      expect(game.robot_board).to eq(board_2)
-    end
-
-    xit 'has a menu' do
-      board_1 = Board.new
-      board_2 = Board.new
-      game    = Game.new(board_1, board_2)
-
+      expect(game.human_board).to be_instance_of(Board)
+      expect(game.robot_board).to be_instance_of(Board)
     end
   end
 
@@ -40,9 +29,7 @@ RSpec.describe Game do
 
   context '#menu' do
     it 'returns menu' do
-      board_1 = Board.new
-      board_2 = Board.new
-      game    = Game.new(board_1, board_2)
+      game    = Game.new
 
       expect(game.menu).to eq("Welcome to BATTLESHIP\nEnter p to play. Enter q to quit.")
     end
@@ -66,9 +53,7 @@ RSpec.describe Game do
 
   context '#random_cell' do
     it 'random cell' do
-      board_1 = Board.new
-      board_2 = Board.new
-      game    = Game.new(board_1, board_2)
+      game    = Game.new
       game.random_cell
       # expect(game.random_cell).to eq(  i dunnoooooooo
     end
