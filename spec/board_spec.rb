@@ -224,4 +224,45 @@ RSpec.describe Board do
       expect(board.no_ship(coordinates)).to be(false)
     end
   end
+
+  context '#render' do
+    it 'renders the board' do
+      board = Board.new
+
+      expect(board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
+    end
+
+    it 'accepts optional arg true' do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+
+      board.place(cruiser, ["A1", "A2", "A3"])
+
+      expect(board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
+    end
+  end
+
+  context '#top_row' do
+    it 'returns a string of the top row' do
+      board = Board.new
+
+      expect(board.top_row).to eq("  1 2 3 4 \n")
+    end
+  end
+
+  context '#other_rows' do
+    it 'returns other_rows string' do
+      board = Board.new
+
+      expect(board.other_rows).to eq("A . . . . \nB . . . . \nC . . . . \nD . . . . \n")
+    end
+  end
+
+  context '#nums_array' do
+    it 'array of column numbers' do
+      board = Board.new
+
+      expect(board.nums_array).to eq([1, 2, 3, 4])
+    end
+  end
 end

@@ -78,4 +78,32 @@ class Board
   def no_ship(coordinates)
     coordinates.all? { |coordinate| @cells[coordinate].empty? }
   end
+
+  def render(arg = false)
+    top_row + other_rows(arg)
+  end
+
+  def top_row
+    "  #{nums_array.join(' ')} \n"
+  end
+
+  def other_rows(arg = false)
+    string = ""
+    alpha_array.each do |alpha|
+      string += "#{alpha} "
+      nums_array.each do |num|
+        if cells[alpha + num.to_s].ship.nil?
+          string += "#{cells[alpha + num.to_s].render} "
+        else
+          string += "#{cells[alpha + num.to_s].render(arg)} "
+        end
+      end
+      string += "\n"
+    end
+    string
+  end
+
+  def nums_array
+    (1..alpha_array.length).to_a
+  end
 end
