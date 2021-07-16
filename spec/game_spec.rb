@@ -47,13 +47,23 @@ RSpec.describe Game do
     # lol i have no idea how to test this.
   end
 
+  context '#place_robot_ships(ships)' do
+    it 'places robot ship only if possible' do
+      game    = Game.new
+      ships = game.robot[:ships]
+
+      game.place_robot_ships(ships)
+      # can't test. this is random.
+      require "pry"; binding.pry
+    end
+  end
+
   context '#place_robot_ship' do
     xit 'places robot ship only if possible' do
       game    = Game.new
       ship = game.robot[:ships][0]
 
       game.place_robot_ship(ship)
-
       # can't test. this is random.
     end
   end

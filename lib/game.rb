@@ -48,12 +48,21 @@ class Game
   end
 
   def play
+    setup
 
   end
 
   def setup
-    get_robot_placement
-    get_human_placement
+    place_robot_ships(robot[:ships])
+    # place_human_ships(human[:ships])
+  end
+
+  # change naming later to customize gameplay.
+  # human player can choose to place ships randomly.
+  def place_robot_ships(ships)
+    ships.each do |ship|
+      place_robot_ship(ship)
+    end
   end
 
   def place_robot_ship(ship)
