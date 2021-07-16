@@ -30,9 +30,9 @@ class Cell
   def render(user_ship = false)
     return "S" if user_ship
 
-    if !@ship.nil? && fired_upon? && @ship.sunk? #replace conditional with method
+    if !empty? && fired_upon? && @ship.sunk? #replace conditional with method
       "X"
-    elsif !@ship.nil? && fired_upon?
+    elsif !empty? && fired_upon?
       "H"
     elsif fired_upon?
       "M"
