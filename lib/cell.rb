@@ -28,7 +28,7 @@ class Cell
   end
 
   def render(arg = false)
-    if !empty? && fired_upon? && ship.sunk? #replace conditional with method
+    if !empty? && fired_upon? && ship.sunk?
       "X"
     elsif !empty? && fired_upon?
       "H"
