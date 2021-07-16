@@ -172,9 +172,10 @@ RSpec.describe Cell do
 
     it "returns 'S' if true is passed in as optional arg" do
       cruiser = Ship.new("Cruiser", 3)
-      cell_1 = Cell.new("B4")
-      cell_2 = Cell.new("B3")
-      cell_3 = Cell.new("B2")
+      cell_1 = Cell.new("B1")
+      cell_2 = Cell.new("B2")
+      cell_3 = Cell.new("B3")
+      cell_4 = Cell.new("B4")
 
       cell_1.place_ship(cruiser)
       cell_2.place_ship(cruiser)
@@ -187,6 +188,7 @@ RSpec.describe Cell do
       expect(cell_1.render(true)).to eq("S")
       expect(cell_2.render(true)).to eq("S")
       expect(cell_3.render(true)).to eq("S")
+      expect(cell_4.render(true)).to eq(".")
     end
   end
 end
