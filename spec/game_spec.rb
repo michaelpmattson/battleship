@@ -18,7 +18,7 @@ RSpec.describe Game do
       board_2 = Board.new
       game    = Game.new(board_1, board_2)
 
-      expect(game.user_board).to eq(board_1)
+      expect(game.human_board).to eq(board_1)
       expect(game.robot_board).to eq(board_2)
     end
 
@@ -31,7 +31,7 @@ RSpec.describe Game do
   end
 
   context '#start' do
-    
+    # lol i have no idea how to test this.
   end
 
   context '#display_clear' do
@@ -46,5 +46,35 @@ RSpec.describe Game do
 
       expect(game.menu).to eq("Welcome to BATTLESHIP\nEnter p to play. Enter q to quit.")
     end
+  end
+
+  context '#play?' do
+    # lol i have no idea how to test this.
+  end
+
+  context '#play' do
+    # lol i have no idea how to test this.
+  end
+
+  context '#setup' do
+    # lol i have no idea how to test this.
+  end
+
+  context '#get_robot_placement' do
+
+  end
+
+  context '#random_cell' do
+    it 'random cell' do
+      board_1 = Board.new
+      board_2 = Board.new
+      game    = Game.new(board_1, board_2)
+      game.random_cell
+      # expect(game.random_cell).to eq(  i dunnoooooooo
+    end
+  end
+
+  context '#random_dir' do
+
   end
 end
