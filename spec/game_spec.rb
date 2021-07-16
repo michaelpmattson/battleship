@@ -4,7 +4,7 @@ require './lib/ship'
 require './lib/cell'
 
 RSpec.describe Game do
-  context '#initialize' do
+  context '#inxitialize' do
     it 'exists' do
       game    = Game.new
 
@@ -14,8 +14,8 @@ RSpec.describe Game do
     it 'has attributes' do
       game    = Game.new
 
-      expect(game.human_board).to be_instance_of(Board)
-      expect(game.robot_board).to be_instance_of(Board)
+      expect(game.human[:board]).to be_instance_of(Board)
+      expect(game.robot[:board]).to be_instance_of(Board)
     end
   end
 
@@ -47,12 +47,23 @@ RSpec.describe Game do
     # lol i have no idea how to test this.
   end
 
+  context '#place_robot_ship' do
+    xit 'places robot ship only if possible' do
+      game    = Game.new
+      ship = game.robot[:ships][0]
+
+      game.place_robot_ship(ship)
+
+      # can't test. this is random.
+    end
+  end
+
   context '#get_robot_placement' do
 
   end
 
   context '#random_cell_num' do
-    xit 'random cell' do
+    it 'random cell' do
       game    = Game.new
       game.random_cell_num
       # expect(game.random_cell_num).to eq(  i dunnoooooooo
@@ -81,8 +92,31 @@ RSpec.describe Game do
   end
 
   context '#orient_down(cell)' do
-    xit 'adds cells down' do
+    it 'adds cells down' do
+      game       = Game.new
+      cruiser    = Ship.new("Cruiser", 3)
+      cell_num_1 = "A1"
+      cell_num_2 = "AB12"
 
+      expect(game.orient_down(cruiser, cell_num_1)).to eq(["A1", "B1", "C1"])
+      expect(game.orient_down(cruiser, cell_num_2)).to eq(["AB12", "AC12", "AD12"])
+    end
+  end
+
+  context '#alpha(cell_num)' do
+    it 'alpha string' do
+      game = Game.new
+
+      expect(game.alpha("AB12")).to eq("AB")
+    end
+
+  end
+
+  context '#num(cell_num)' do
+    it 'num string' do
+      game = Game.new
+
+      expect(game.num("AB12")).to eq("12")
     end
   end
 end

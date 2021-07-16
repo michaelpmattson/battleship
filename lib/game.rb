@@ -1,12 +1,15 @@
 require './lib/board'
+require './lib/ship'
 
 class Game
-  attr_reader :human_board,
-              :robot_board
+  attr_reader :human,
+              :robot
 
   def initialize
-    @human_board = Board.new
-    @robot_board = Board.new
+    @human = { board: Board.new,
+               ships: [Ship.new("Cruiser", 3), Ship.new("Submarine", 2)] }
+    @robot = { board: Board.new,
+               ships: [Ship.new("Cruiser", 3), Ship.new("Submarine", 2)] }
   end
 
   def start
@@ -53,31 +56,65 @@ class Game
     get_human_placement
   end
 
-  def get_robot_placement
+  def place_robot_ship(ship)
+    coordinates = get_robot_placement(ship)
+
+    if robot[:board].valid_placement?(ship, coordinates)
+      robot[:board].place(ship, coordinates)
+    else
+      place_robot_ship(ship)
+    end
+  end
+
+  def get_robot_placement(ship)
     cell_num = random_cell_num
+    placement = choose_orientation(ship, cell_num)
+  end
+
+  def choose_orientation(ship, cell_num)
     zero_or_one == 0 ? orient_right(ship, cell_num) : orient_down(ship, cell_num)
   end
 
   def random_cell_num
-    num = rand(robot_board.cells.keys.count)
-    robot_board.cells.keys[num]
+    num = rand(robot[:board].cells.keys.count)
+    robot[:board].cells.keys[num]
   end
 
   def zero_or_one
     rand(2)
   end
 
+  # refactor to combine orient_right and orient_down later.
+  # num and alpha are the only difference in these blocks.
   def orient_right(ship, cell_num)
     ship_array = []
-    alpha = cell_num.delete("0-9")
-    num = cell_num.delete("^0-9").to_i
+    alpha = alpha(cell_num)
+    num = num(cell_num)
     ship.length.times do
-      ship_array << alpha + num.to_s
-      num += 1
+      ship_array << alpha + num
+      num.next!
     end
     ship_array
   end
 
+  def orient_down(ship, cell_num)
+    ship_array = []
+    alpha = alpha(cell_num)
+    num = num(cell_num)
+    ship.length.times do
+      ship_array << alpha + num
+      alpha.next!
+    end
+    ship_array
+  end
+
+  def alpha(cell_num)
+    cell_num.delete("0-9")
+  end
+
+  def num(cell_num)
+    cell_num.delete("^0-9")
+  end
   # def get_human_placement
   #
   # end
