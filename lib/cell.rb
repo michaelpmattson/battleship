@@ -27,13 +27,13 @@ class Cell
     end
   end
 
-  def render(user_ship = false)
-    return "S" if user_ship
-
-    if !empty? && fired_upon? && @ship.sunk? #replace conditional with method
+  def render(arg = false)
+    if !empty? && fired_upon? && ship.sunk? #replace conditional with method
       "X"
     elsif !empty? && fired_upon?
       "H"
+    elsif !empty? && arg
+      "S"
     elsif fired_upon?
       "M"
     else
