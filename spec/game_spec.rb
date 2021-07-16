@@ -59,7 +59,12 @@ RSpec.describe Game do
     end
   end
 
-  context '#random_dir' do
+  context '#zero_or_one' do
+    it 'is zero or one' do
+      game = Game.new
+      num = game.zero_or_one
 
+      expect(num == 0 || num == 1).to be(true)
+    end
   end
 end

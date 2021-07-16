@@ -62,8 +62,8 @@ class Game
     robot_board.cells.keys[num]
   end
 
-  def random_dir
-    # use rand(1) to choose right or down
+  def zero_or_one
+    rand(2)
   end
 
   # def get_human_placement
