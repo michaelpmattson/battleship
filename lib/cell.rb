@@ -9,7 +9,7 @@ class Cell
   end
 
   def empty?
-    @ship.nil?
+    ship.nil?
   end
 
   def place_ship(ship)
@@ -23,7 +23,7 @@ class Cell
   def fire_upon
     unless fired_upon?
       @fired_upon = true
-      @ship.hit unless @ship.nil? # want to add test for @ship.nil? edge case
+      @ship.hit unless empty?
     end
   end
 
