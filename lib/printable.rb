@@ -1,4 +1,20 @@
 module Printable
+  # headers
+  def game_title
+    "******************\n" +
+    "**  BATTLESHIP  **\n" +
+    "******************"
+  end
+
+  def robot_header
+    "===ROBOT BOARD==="
+  end
+
+  def human_header
+    "===HUMAN BOARD==="
+  end
+
+  # main menu
   def menu
     "Welcome to BATTLESHIP\nEnter p to play. Enter q to quit."
   end
@@ -11,6 +27,7 @@ module Printable
     "Your loss. See you later alligator!"
   end
 
+  # turn
   def human_turn_prompt
     "I have laid out my ships on the grid.\nYou now need to lay out your two ships."
   end
@@ -32,29 +49,16 @@ module Printable
     "Please enter a valid coordinate:"
   end
 
-  def robot_header
-    "===ROBOT BOARD==="
+  def human_choice_prompt
+    "Your turn. Please enter coordinate:"
   end
 
-  def human_header
-    "===HUMAN BOARD==="
-  end
-
+  # end game
   def robot_winner
     "I win. Destroy all humans."
   end
 
   def human_winner
     "You win. Does not compute."
-  end
-
-  def human_choice_prompt
-    "Your turn. Please enter coordinate:"
-  end
-
-  def game_title
-    "******************\n" +
-    "**  BATTLESHIP  **\n" +
-    "******************"
   end
 end
