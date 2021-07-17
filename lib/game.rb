@@ -22,7 +22,7 @@ class Game
 
   def refresh_screen
     clear_screen
-    render_boards
+    render_screen
   end
 
   def clear_screen
@@ -56,7 +56,7 @@ class Game
 
   def play
     setup
-    until player_ships_sunk?(human) || player_ships_sunk?(robot)
+    until winner?
       turn
     end
     puts congratulate_winner(winner)
@@ -154,10 +154,13 @@ class Game
     end
   end
 
-  def get_human_placement(ship)
+  def human_input
+    gets.chomp.upcase
+  end
 
+  def get_human_placement(ship)
     puts enter_coordinates(ship)
-    gets.chomp.upcase.split(' ')
+    human_input.split(' ')
   end
 
   # make this dynamic later.
@@ -179,19 +182,20 @@ class Game
     # Computer board is displayed showing hits, misses, and sunken ships
     # Computer chooses a random shot. does not fire on the same spot twice
 
-    # add countdown here
+    # robot_countdown
     coordinate = robot_choose_coordinate
     human[:board].fire_upon(coordinate)
     refresh_screen
     puts human[:board].cells[coordinate].report('I', 'my', 'your')
 
-
+    return if winner?
     # User can choose a valid coordinate to fire on
     # Entering invalid coordinate prompts user to enter valid coordinate
+    puts human_choice_prompt
     coordinate = human_choose_coordinate
     robot[:board].fire_upon(coordinate)
     refresh_screen
-    puts human[:board].cells[coordinate].report('you', 'your', 'my')
+    puts robot[:board].cells[coordinate].report('you', 'your', 'my')
 
     # Both robot and player shots are reported as a hit, sink, or miss << done
     # User is informed when they have already fired on a coordinate << done below
@@ -203,7 +207,7 @@ class Game
     robot_shot = random_cell_num
 
     if robot[:shots_fired].include?(robot_shot)
-      robot_choose_coordinate
+      return robot_choose_coordinate
     end
 
     robot[:shots_fired] << robot_shot
@@ -211,19 +215,18 @@ class Game
   end
 
   def human_choose_coordinate
-    human_shot = gets.chomp.upcase
+    human_shot = human_input
 
     if human[:shots_fired].include?(human_shot)
       puts "Please enter a new coordinate:"
-      human_choose_coordinate
+      return human_choose_coordinate
     elsif robot[:board].validate_coordinate?(human_shot)
       human[:shots_fired] << human_shot
+      human_shot
     else
       puts "Please enter a valid coordinate:"
-      human_choose_coordinate
+      return human_choose_coordinate
     end
-
-    human_shot
   end
 
   def player_ships_sunk?(player)
@@ -231,18 +234,22 @@ class Game
   end
 
   def robot_header
-    "=============ROBOT BOARD============="
+    "===ROBOT BOARD==="
   end
 
   def human_header
-    "=============HUMAN BOARD============="
+    "===HUMAN BOARD==="
   end
 
-  def render_boards
+  def render_screen
+    puts game_title
+    puts
     puts robot_header
     puts robot[:board].render
+    puts
     puts human_header
     puts human[:board].render(true)
+    puts
   end
 
   def robot_winner
@@ -267,5 +274,34 @@ class Game
     elsif winner == robot
       robot_winner
     end
+  end
+
+  def human_choice_prompt
+    "Your turn. Please enter coordinate:"
+  end
+
+  def game_title
+    "******************\n" +
+    "**  BATTLESHIP  **\n" +
+    "******************"
+  end
+
+  def robot_countdown
+    sleep 1.2
+    puts status = "Calculating trajectory"
+    sleep 1.2
+    refresh_screen
+    puts status += "."
+    sleep 1.2
+    refresh_screen
+    puts status += "."
+    sleep 1.2
+    refresh_screen
+    puts status += "."
+    sleep 1.2
+  end
+
+  def winner?
+    player_ships_sunk?(human) || player_ships_sunk?(robot)
   end
 end
