@@ -4,15 +4,15 @@ require './lib/ship'
 require './lib/cell'
 
 RSpec.describe Game do
-  context '#inxitialize' do
+  context '#initialize' do
     it 'exists' do
-      game    = Game.new
+      game = Game.new
 
       expect(game).to be_instance_of(Game)
     end
 
     it 'has attributes' do
-      game    = Game.new
+      game = Game.new
 
       expect(game.human[:board]).to be_instance_of(Board)
       expect(game.robot[:board]).to be_instance_of(Board)
@@ -25,14 +25,6 @@ RSpec.describe Game do
 
   context '#display_clear' do
     # lol i have no idea how to test this.
-  end
-
-  context '#menu' do
-    it 'returns menu' do
-      game    = Game.new
-
-      expect(game.menu).to eq("Welcome to BATTLESHIP\nEnter p to play. Enter q to quit.")
-    end
   end
 
   context '#play?' do
@@ -141,32 +133,6 @@ RSpec.describe Game do
     # requires human input. destroy all humans.
   end
 
-  context '#human_turn_prompt' do
-    it 'human_turn_prompt' do
-      game    = Game.new
-
-      expect(game.human_turn_prompt).to eq("I have laid out my ships on the grid.\nYou now need to lay out your two ships.")
-    end
-  end
-
-  context '##ship_list' do
-    it 'ship_list' do
-      game    = Game.new
-
-      expect(game.ship_list).to eq("The Cruiser is three units long and the Submarine is two units long.")
-    end
-  end
-
-  context '#enter_coordinates(ship)' do
-    it 'returns enter_coordinates instruction' do
-      game    = Game.new
-      ship = game.human[:ships][0]
-      spaces = ship.length
-
-      expect(game.enter_coordinates(ship)).to eq("Enter the squares for the #{ship.name} (#{ship.length} spaces):")
-    end
-  end
-
   context '#turn' do
     it 'displays the boards' do
       # in the terminal.
@@ -196,22 +162,6 @@ RSpec.describe Game do
       human[:board].fire_upon("B4")
 
       expect(game.player_ships_sunk?(human)).to be(true)
-    end
-  end
-
-  context '#robot_header' do
-    it 'robot_header' do
-      game    = Game.new
-
-      expect(game.robot_header).to eq("=============ROBOT BOARD=============")
-    end
-  end
-
-  context '#human_header' do
-    it 'text' do
-      game    = Game.new
-
-      expect(game.human_header).to eq("=============HUMAN BOARD=============")
     end
   end
 
@@ -280,22 +230,6 @@ RSpec.describe Game do
       expect(game.player_ships_sunk?(human)).to be(true)
 
       expect(game.winner).to eq(game.robot)
-    end
-  end
-
-  context '#robot_winner' do
-    it 'robot_winner' do
-      game    = Game.new
-
-      expect(game.robot_winner).to eq("I win. Destroy all humans.")
-    end
-  end
-
-  context '#human_winner' do
-    it 'human_winner' do
-      game    = Game.new
-
-      expect(game.human_winner).to eq("You win. Does not compute.")
     end
   end
 end

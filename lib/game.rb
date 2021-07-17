@@ -1,7 +1,10 @@
 require './lib/board'
 require './lib/ship'
+require './lib/printable'
 
 class Game
+  include Printable
+
   attr_reader :human,
               :robot
 
@@ -28,18 +31,6 @@ class Game
   def clear_screen
     system 'clear'
     puts
-  end
-
-  def menu
-    "Welcome to BATTLESHIP\nEnter p to play. Enter q to quit."
-  end
-
-  def invalid_answer
-    "Invalid choice. Enter p to play. Enter q to quit."
-  end
-
-  def not_playing
-    "Your loss. See you later alligator!"
   end
 
   def play?
@@ -163,20 +154,6 @@ class Game
     human_input.split(' ')
   end
 
-  # make this dynamic later.
-  def human_turn_prompt
-    "I have laid out my ships on the grid.\nYou now need to lay out your two ships."
-  end
-
-  # make this dynamic later.
-  def ship_list
-    "The Cruiser is three units long and the Submarine is two units long."
-  end
-
-  def enter_coordinates(ship)
-    "Enter the squares for the #{ship.name} (#{ship.length} spaces):"
-  end
-
   def turn
     # User board is displayed showing hits, misses, sunken ships, and ships
     # Computer board is displayed showing hits, misses, and sunken ships
@@ -218,28 +195,20 @@ class Game
     human_shot = human_input
 
     if human[:shots_fired].include?(human_shot)
-      puts "Please enter a new coordinate:"
+      puts new_coordinate_prompt
       return human_choose_coordinate
     elsif robot[:board].validate_coordinate?(human_shot)
       human[:shots_fired] << human_shot
       human_shot
     else
-      puts "Please enter a valid coordinate:"
+      puts valid_coordinate_prompt
       return human_choose_coordinate
     end
   end
 
   def player_ships_sunk?(player)
     player[:ships].all? { |ship| ship.sunk? }
-  end
-
-  def robot_header
-    "===ROBOT BOARD==="
-  end
-
-  def human_header
-    "===HUMAN BOARD==="
-  end
+  end 
 
   def render_screen
     puts game_title
@@ -250,14 +219,6 @@ class Game
     puts human_header
     puts human[:board].render(true)
     puts
-  end
-
-  def robot_winner
-    "I win. Destroy all humans."
-  end
-
-  def human_winner
-    "You win. Does not compute."
   end
 
   def winner
@@ -274,16 +235,6 @@ class Game
     elsif winner == robot
       robot_winner
     end
-  end
-
-  def human_choice_prompt
-    "Your turn. Please enter coordinate:"
-  end
-
-  def game_title
-    "******************\n" +
-    "**  BATTLESHIP  **\n" +
-    "******************"
   end
 
   def robot_countdown
