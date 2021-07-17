@@ -11,21 +11,21 @@ RSpec.describe Cell do
 
     it 'has a coordinate' do
       cell = Cell.new("B4")
-      
+
       expect(cell.coordinate).to eq("B4")
     end
 
     it 'starts with no ship' do
       cell = Cell.new("B4")
-      
-      expect(cell.ship).to be_nil 
+
+      expect(cell.ship).to be_nil
     end
   end
 
   context '#empty?' do
     it 'starts empty' do
       cell = Cell.new("B4")
-      
+
       expect(cell.empty?).to be(true)
     end
   end
@@ -52,7 +52,7 @@ RSpec.describe Cell do
     it 'can not place if not empty' do
       cruiser = Ship.new("Cruiser", 3)
       cell = Cell.new("B4")
-    
+
       cell.place_ship(cruiser)
 
       expect(cell.ship).to be(cruiser)
@@ -75,7 +75,7 @@ RSpec.describe Cell do
       expect(cell.fired_upon?).to be(false)
     end
   end
-  
+
   context '#fire_upon' do
     it 'makes cell fired upon' do
       cruiser = Ship.new("Cruiser", 3)
@@ -158,11 +158,11 @@ RSpec.describe Cell do
 
       cell_1.fire_upon
       cell_2.fire_upon
-      
+
       expect(cell_1.render).to eq("H")
       expect(cell_2.render).to eq("H")
       expect(cell_3.render).to eq(".")
-      
+
       cell_3.fire_upon
 
       expect(cell_1.render).to eq("X")
@@ -189,6 +189,59 @@ RSpec.describe Cell do
       expect(cell_2.render(true)).to eq("S")
       expect(cell_3.render(true)).to eq("S")
       expect(cell_4.render(true)).to eq(".")
+    end
+  end
+
+  context '#report' do
+    it "returns a miss" do
+      cell_1 = Cell.new("B4")
+
+      cell_1.fire_upon
+
+      expect(cell_1.report('you', 'your', 'my')).to eq("Your shot on B4 was a miss.")
+      expect(cell_1.report('I', 'my', 'your')).to eq("My shot on B4 was a miss.")
+    end
+
+    it "returns a hit" do
+      cell_1 = Cell.new("B4")
+      cruiser = Ship.new("Cruiser", 3)
+
+      cell_1.place_ship(cruiser)
+
+      cell_1.fire_upon
+
+      expect(cell_1.report('you', 'your', 'my')).to eq("Your shot on B4 was a hit.")
+      expect(cell_1.report('I', 'my', 'your')).to eq("My shot on B4 was a hit.")
+    end
+
+    it "returns sunk" do
+      cruiser = Ship.new("Cruiser", 3)
+      cell_1 = Cell.new("B4")
+      cell_2 = Cell.new("B3")
+      cell_3 = Cell.new("B2")
+
+      cell_1.place_ship(cruiser)
+      cell_2.place_ship(cruiser)
+      cell_3.place_ship(cruiser)
+
+      cell_1.fire_upon
+      cell_2.fire_upon
+
+      expect(cell_1.report('you', 'your', 'my')).to eq("Your shot on B4 was a hit.")
+      expect(cell_2.report('you', 'your', 'my')).to eq("Your shot on B3 was a hit.")
+
+      expect(cell_1.report('I', 'my', 'your')).to eq("My shot on B4 was a hit.")
+      expect(cell_2.report('I', 'my', 'your')).to eq("My shot on B3 was a hit.")
+
+      cell_3.fire_upon
+
+      expect(cell_1.report('you', 'your', 'my')).to eq("You sunk my Cruiser.")
+      expect(cell_2.report('you', 'your', 'my')).to eq("You sunk my Cruiser.")
+      expect(cell_3.report('you', 'your', 'my')).to eq("You sunk my Cruiser.")
+
+      expect(cell_1.report('I', 'my', 'your')).to eq("I sunk your Cruiser.")
+      expect(cell_2.report('I', 'my', 'your')).to eq("I sunk your Cruiser.")
+      expect(cell_3.report('I', 'my', 'your')).to eq("I sunk your Cruiser.")
     end
   end
 end

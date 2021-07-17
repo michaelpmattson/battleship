@@ -106,4 +106,8 @@ class Board
   def nums_array
     (1..alpha_array.length).to_a
   end
+
+  def fire_upon(coordinate)
+    @cells[coordinate].fire_upon
+  end
 end
