@@ -40,4 +40,14 @@ class Cell
       "."
     end
   end
+
+  def report
+    if !empty? && fired_upon? && ship.sunk?
+      "You sunk my #{ship.name}."
+    elsif !empty? && fired_upon?
+      "Your shot on #{coordinate} was a hit."
+    else
+      "Your shot on #{coordinate} was a miss."
+    end
+  end
 end
