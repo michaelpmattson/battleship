@@ -41,13 +41,13 @@ class Cell
     end
   end
 
-  def report
+  def report(sub_pronoun_self, poss_adj_self, poss_adj_opponent)
     if !empty? && fired_upon? && ship.sunk?
-      "You sunk my #{ship.name}."
+      "#{sub_pronoun_self.capitalize} sunk #{poss_adj_opponent} #{ship.name}."
     elsif !empty? && fired_upon?
-      "Your shot on #{coordinate} was a hit."
+      "#{poss_adj_self.capitalize} shot on #{coordinate} was a hit."
     else
-      "Your shot on #{coordinate} was a miss."
+      "#{poss_adj_self.capitalize} shot on #{coordinate} was a miss."
     end
   end
 end

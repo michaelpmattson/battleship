@@ -176,5 +176,126 @@ RSpec.describe Game do
     end
   end
 
+  context '#player_ships_sunk?(player)' do
+    it 'returns true when all ships sunk' do
+      game    = Game.new
+      human = game.human
+      cruiser = human[:ships][0]
+      submarine = human[:ships][1]
+      human[:board].place(cruiser, ["A1", "A2", "A3"])
+      human[:board].place(submarine, ["B3", "B4"])
 
+      robot = game.robot
+      human[:board].fire_upon("A1")
+      human[:board].fire_upon("A2")
+      human[:board].fire_upon("A3")
+
+      expect(game.player_ships_sunk?(human)).to be(false)
+
+      human[:board].fire_upon("B3")
+      human[:board].fire_upon("B4")
+
+      expect(game.player_ships_sunk?(human)).to be(true)
+    end
+  end
+
+  context '#robot_header' do
+    it 'robot_header' do
+      game    = Game.new
+
+      expect(game.robot_header).to eq("=============ROBOT BOARD=============")
+    end
+  end
+
+  context '#human_header' do
+    it 'text' do
+      game    = Game.new
+
+      expect(game.human_header).to eq("=============HUMAN BOARD=============")
+    end
+  end
+
+  context '#congratulate_winner(winner)' do
+    it 'can congratulate human' do
+      game    = Game.new
+      human = game.human
+      robot = game.robot
+      winner = human
+
+      expect(game.congratulate_winner(winner)).to eq(game.human_winner)
+    end
+
+    it 'can congratulate robot' do
+      game    = Game.new
+      human = game.human
+      robot = game.robot
+      winner = robot
+
+      expect(game.congratulate_winner(winner)).to eq(game.robot_winner)
+    end
+  end
+
+  context '#winner' do
+    it 'human can win' do
+      game    = Game.new
+      human = game.human
+      robot = game.robot
+      cruiser = robot[:ships][0]
+      submarine = robot[:ships][1]
+      robot[:board].place(cruiser, ["A1", "A2", "A3"])
+      robot[:board].place(submarine, ["B3", "B4"])
+
+      robot[:board].fire_upon("A1")
+      robot[:board].fire_upon("A2")
+      robot[:board].fire_upon("A3")
+
+      expect(game.player_ships_sunk?(robot)).to be(false)
+
+      robot[:board].fire_upon("B3")
+      robot[:board].fire_upon("B4")
+
+      expect(game.player_ships_sunk?(robot)).to be(true)
+
+      expect(game.winner).to eq(game.human)
+    end
+
+    it 'robot can win' do
+      game    = Game.new
+      human = game.human
+      robot = game.robot
+      cruiser = human[:ships][0]
+      submarine = human[:ships][1]
+      human[:board].place(cruiser, ["A1", "A2", "A3"])
+      human[:board].place(submarine, ["B3", "B4"])
+
+      human[:board].fire_upon("A1")
+      human[:board].fire_upon("A2")
+      human[:board].fire_upon("A3")
+
+      expect(game.player_ships_sunk?(human)).to be(false)
+
+      human[:board].fire_upon("B3")
+      human[:board].fire_upon("B4")
+
+      expect(game.player_ships_sunk?(human)).to be(true)
+
+      expect(game.winner).to eq(game.robot)
+    end
+  end
+
+  context '#robot_winner' do
+    it 'robot_winner' do
+      game    = Game.new
+
+      expect(game.robot_winner).to eq("I win. Destroy all humans.")
+    end
+  end
+
+  context '#human_winner' do
+    it 'human_winner' do
+      game    = Game.new
+
+      expect(game.human_winner).to eq("You win. Does not compute.")
+    end
+  end
 end

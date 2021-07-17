@@ -198,7 +198,8 @@ RSpec.describe Cell do
 
       cell_1.fire_upon
 
-      expect(cell_1.report).to eq("Your shot on B4 was a miss.")
+      expect(cell_1.report('you', 'your', 'my')).to eq("Your shot on B4 was a miss.")
+      expect(cell_1.report('I', 'my', 'your')).to eq("My shot on B4 was a miss.")
     end
 
     it "returns a hit" do
@@ -209,7 +210,8 @@ RSpec.describe Cell do
 
       cell_1.fire_upon
 
-      expect(cell_1.report).to eq("Your shot on B4 was a hit.")
+      expect(cell_1.report('you', 'your', 'my')).to eq("Your shot on B4 was a hit.")
+      expect(cell_1.report('I', 'my', 'your')).to eq("My shot on B4 was a hit.")
     end
 
     it "returns sunk" do
@@ -225,14 +227,21 @@ RSpec.describe Cell do
       cell_1.fire_upon
       cell_2.fire_upon
 
-      expect(cell_1.report).to eq("Your shot on B4 was a hit.")
-      expect(cell_2.report).to eq("Your shot on B3 was a hit.")
+      expect(cell_1.report('you', 'your', 'my')).to eq("Your shot on B4 was a hit.")
+      expect(cell_2.report('you', 'your', 'my')).to eq("Your shot on B3 was a hit.")
+
+      expect(cell_1.report('I', 'my', 'your')).to eq("My shot on B4 was a hit.")
+      expect(cell_2.report('I', 'my', 'your')).to eq("My shot on B3 was a hit.")
 
       cell_3.fire_upon
 
-      expect(cell_1.report).to eq("You sunk my Cruiser.")
-      expect(cell_2.report).to eq("You sunk my Cruiser.")
-      expect(cell_3.report).to eq("You sunk my Cruiser.")
+      expect(cell_1.report('you', 'your', 'my')).to eq("You sunk my Cruiser.")
+      expect(cell_2.report('you', 'your', 'my')).to eq("You sunk my Cruiser.")
+      expect(cell_3.report('you', 'your', 'my')).to eq("You sunk my Cruiser.")
+
+      expect(cell_1.report('I', 'my', 'your')).to eq("I sunk your Cruiser.")
+      expect(cell_2.report('I', 'my', 'your')).to eq("I sunk your Cruiser.")
+      expect(cell_3.report('I', 'my', 'your')).to eq("I sunk your Cruiser.")
     end
   end
 end

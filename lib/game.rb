@@ -15,9 +15,14 @@ class Game
   end
 
   def start
-    clear_screen
+    refresh_screen
     puts menu
     play if play?
+  end
+
+  def refresh_screen
+    clear_screen
+    render_boards
   end
 
   def clear_screen
@@ -51,8 +56,10 @@ class Game
 
   def play
     setup
-    human_choose_coordinate
-
+    until player_ships_sunk?(human) || player_ships_sunk?(robot)
+      turn
+    end
+    puts congratulate_winner(winner)
   end
 
   def setup
@@ -133,7 +140,7 @@ class Game
   def place_human_ships(ships)
     ships.each do |ship|
       place_human_ship(ship)
-      puts human[:board].render(true)
+      refresh_screen
     end
   end
 
@@ -169,20 +176,24 @@ class Game
 
   def turn
     # User board is displayed showing hits, misses, sunken ships, and ships
-    
     # Computer board is displayed showing hits, misses, and sunken ships
-
     # Computer chooses a random shot. does not fire on the same spot twice
-    human[:board].fire_upon(robot_choose_coordinate)
+
+    # add countdown here
+    coordinate = robot_choose_coordinate
+    human[:board].fire_upon(coordinate)
+    refresh_screen
+    puts human[:board].cells[coordinate].report('I', 'my', 'your')
+
 
     # User can choose a valid coordinate to fire on
     # Entering invalid coordinate prompts user to enter valid coordinate
     coordinate = human_choose_coordinate
     robot[:board].fire_upon(coordinate)
+    refresh_screen
+    puts human[:board].cells[coordinate].report('you', 'your', 'my')
 
-    # Both robot and player shots are reported as a hit, sink, or miss
-
-
+    # Both robot and player shots are reported as a hit, sink, or miss << done
     # User is informed when they have already fired on a coordinate << done below
 
     # Board is updated after a turn (refresh screen)
@@ -213,5 +224,48 @@ class Game
     end
 
     human_shot
+  end
+
+  def player_ships_sunk?(player)
+    player[:ships].all? { |ship| ship.sunk? }
+  end
+
+  def robot_header
+    "=============ROBOT BOARD============="
+  end
+
+  def human_header
+    "=============HUMAN BOARD============="
+  end
+
+  def render_boards
+    puts robot_header
+    puts robot[:board].render
+    puts human_header
+    puts human[:board].render(true)
+  end
+
+  def robot_winner
+    "I win. Destroy all humans."
+  end
+
+  def human_winner
+    "You win. Does not compute."
+  end
+
+  def winner
+    if player_ships_sunk?(human)
+      robot
+    elsif player_ships_sunk?(robot)
+      human
+    end
+  end
+
+  def congratulate_winner(winner)
+    if winner == human
+      human_winner
+    elsif winner == robot
+      robot_winner
+    end
   end
 end
