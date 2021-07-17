@@ -16,7 +16,6 @@ RSpec.describe Game do
 
       expect(game.human[:board]).to be_instance_of(Board)
       expect(game.robot[:board]).to be_instance_of(Board)
-      expect(game.shots_fired).to eq([])
     end
   end
 

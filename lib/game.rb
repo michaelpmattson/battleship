@@ -3,15 +3,15 @@ require './lib/ship'
 
 class Game
   attr_reader :human,
-              :robot,
-              :shots_fired
+              :robot
 
   def initialize
     @human = { board: Board.new,
-               ships: [Ship.new("Cruiser", 3), Ship.new("Submarine", 2)] }
+               ships: [Ship.new("Cruiser", 3), Ship.new("Submarine", 2)],
+               shots_fired: [] }
     @robot = { board: Board.new,
-               ships: [Ship.new("Cruiser", 3), Ship.new("Submarine", 2)] }
-    @shots_fired = []
+               ships: [Ship.new("Cruiser", 3), Ship.new("Submarine", 2)],
+               shots_fired: [] }
   end
 
   def start
@@ -51,6 +51,7 @@ class Game
 
   def play
     setup
+    human_choose_coordinate
 
   end
 
@@ -132,6 +133,7 @@ class Game
   def place_human_ships(ships)
     ships.each do |ship|
       place_human_ship(ship)
+      puts human[:board].render(true)
     end
   end
 
@@ -146,7 +148,7 @@ class Game
   end
 
   def get_human_placement(ship)
-    puts human[:board].render(true)
+
     puts enter_coordinates(ship)
     gets.chomp.upcase.split(' ')
   end
@@ -167,26 +169,49 @@ class Game
 
   def turn
     # User board is displayed showing hits, misses, sunken ships, and ships
+    
     # Computer board is displayed showing hits, misses, and sunken ships
-    # Computer chooses a random shot
-    # computer_shot = computer_choose_spot
-    # require "pry"; binding.pry
-    human[:board].fire_upon(computer_choose_coordinate)
-    require "pry"; binding.pry
+
+    # Computer chooses a random shot. does not fire on the same spot twice
+    human[:board].fire_upon(robot_choose_coordinate)
+
     # User can choose a valid coordinate to fire on
     # Entering invalid coordinate prompts user to enter valid coordinate
-    # Both computer and player shots are reported as a hit, sink, or miss
-    # User is informed when they have already fired on a coordinate
-    # Board is updated after a turn
+    coordinate = human_choose_coordinate
+    robot[:board].fire_upon(coordinate)
+
+    # Both robot and player shots are reported as a hit, sink, or miss
+
+
+    # User is informed when they have already fired on a coordinate << done below
+
+    # Board is updated after a turn (refresh screen)
   end
 
-  def computer_choose_coordinate
-    computer_shot = random_cell_num
-    # Computer does not fire on the same spot twice
-    while shots_fired.include? computer_shot
-      computer_shot = random_cell_num
+  def robot_choose_coordinate
+    robot_shot = random_cell_num
+
+    if robot[:shots_fired].include?(robot_shot)
+      robot_choose_coordinate
     end
-    @shots_fired << computer_shot
-    computer_shot
+
+    robot[:shots_fired] << robot_shot
+    robot_shot
+  end
+
+  def human_choose_coordinate
+    human_shot = gets.chomp.upcase
+
+    if human[:shots_fired].include?(human_shot)
+      puts "Please enter a new coordinate:"
+      human_choose_coordinate
+    elsif robot[:board].validate_coordinate?(human_shot)
+      human[:shots_fired] << human_shot
+    else
+      puts "Please enter a valid coordinate:"
+      human_choose_coordinate
+    end
+
+    human_shot
   end
 end
