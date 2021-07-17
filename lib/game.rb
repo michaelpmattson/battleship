@@ -23,11 +23,13 @@ class Game
     play if play?
   end
 
+  # possible module
   def refresh_screen
     clear_screen
     render_screen
   end
 
+  #possible module (displayable)
   def clear_screen
     system 'clear'
     puts
@@ -159,7 +161,7 @@ class Game
     # Computer board is displayed showing hits, misses, and sunken ships
     # Computer chooses a random shot. does not fire on the same spot twice
 
-    # robot_countdown
+    robot_countdown
     coordinate = robot_choose_coordinate
     human[:board].fire_upon(coordinate)
     refresh_screen
@@ -238,18 +240,14 @@ class Game
   end
 
   def robot_countdown
-    sleep 1.2
+    sleep 2.1
     puts status = "Calculating trajectory"
-    sleep 1.2
-    refresh_screen
-    puts status += "."
-    sleep 1.2
-    refresh_screen
-    puts status += "."
-    sleep 1.2
-    refresh_screen
-    puts status += "."
-    sleep 1.2
+    3.times do 
+      refresh_screen
+      puts status += "."
+      sleep 1.2
+    end
+    
   end
 
   def winner?

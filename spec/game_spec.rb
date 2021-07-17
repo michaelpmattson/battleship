@@ -134,11 +134,8 @@ RSpec.describe Game do
   end
 
   context '#turn' do
-    it 'displays the boards' do
+    xit 'displays the boards' do
       # in the terminal.
-      game = Game.new
-
-      game.turn
     end
   end
 
