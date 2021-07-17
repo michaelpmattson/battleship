@@ -16,6 +16,7 @@ RSpec.describe Game do
 
       expect(game.human[:board]).to be_instance_of(Board)
       expect(game.robot[:board]).to be_instance_of(Board)
+      expect(game.shots_fired).to eq([])
     end
   end
 
@@ -54,7 +55,6 @@ RSpec.describe Game do
 
       game.place_robot_ships(ships)
       # can't test. this is random.
-      require "pry"; binding.pry
     end
   end
 
@@ -129,4 +129,53 @@ RSpec.describe Game do
       expect(game.num("AB12")).to eq("12")
     end
   end
+
+  context '#place_human_ships(ship)' do
+    # requires human input. destroy all humans.
+  end
+
+  context '#get_human_placement(ship)' do
+    # requires human input. destroy all humans.
+  end
+
+  context '#get_human_placement(ship)' do
+    # requires human input. destroy all humans.
+  end
+
+  context '#human_turn_prompt' do
+    it 'human_turn_prompt' do
+      game    = Game.new
+
+      expect(game.human_turn_prompt).to eq("I have laid out my ships on the grid.\nYou now need to lay out your two ships.")
+    end
+  end
+
+  context '##ship_list' do
+    it 'ship_list' do
+      game    = Game.new
+
+      expect(game.ship_list).to eq("The Cruiser is three units long and the Submarine is two units long.")
+    end
+  end
+
+  context '#enter_coordinates(ship)' do
+    it 'returns enter_coordinates instruction' do
+      game    = Game.new
+      ship = game.human[:ships][0]
+      spaces = ship.length
+
+      expect(game.enter_coordinates(ship)).to eq("Enter the squares for the #{ship.name} (#{ship.length} spaces):")
+    end
+  end
+
+  context '#turn' do
+    it 'displays the boards' do
+      # in the terminal.
+      game = Game.new
+
+      game.turn
+    end
+  end
+
+
 end
