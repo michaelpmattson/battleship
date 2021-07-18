@@ -45,6 +45,10 @@ module Printable
     "Please enter a new coordinate:"
   end
 
+  def valid_coordinates_prompt
+    "Invalid choice. Please enter valid coordinates:"
+  end
+
   def valid_coordinate_prompt
     "Please enter a valid coordinate:"
   end
