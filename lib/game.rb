@@ -17,50 +17,67 @@ class Game
                shots_fired: [] }
   end
 
-  def start
-    refresh_screen
-    puts menu
-    play if play?
-  end
 
-  # possible module
-  def refresh_screen
-    clear_screen
-    render_screen
-  end
+  # Player methods ----------------------
 
-  #possible module (displayable)
-  def clear_screen
-    system 'clear'
-    puts
-  end
+  def place_robot_ship(ship)
+    coordinates = get_robot_placement(ship) # remove and make a get coordinates method in robot class
 
-  def play?
-    input = gets.chomp.downcase
-    if input == 'p'
-      true
-    elsif input == 'q'
-      puts not_playing
+    if robot[:board].valid_placement?(ship, coordinates) # rest is same
+      robot[:board].place(ship, coordinates)
     else
-      puts invalid_answer
-      play?
+      place_robot_ship(ship)
     end
   end
 
-  def play
-    setup
-    until winner?
-      turn
+  def place_human_ship(ship)
+    coordinates = get_human_placement(ship) # remove and make a get coordinates method in human class
+
+    if human[:board].valid_placement?(ship, coordinates)
+      human[:board].place(ship, coordinates)
+    else
+      place_human_ship(ship)
     end
-    puts congratulate_winner(winner)
   end
 
-  def setup
-    place_robot_ships(robot[:ships])
-    puts human_turn_prompt
-    puts ship_list
-    place_human_ships(human[:ships])
+
+  # Human player methods ----------------------
+
+  def place_human_ships(ships)
+    ships.each do |ship|
+      place_human_ship(ship)
+      refresh_screen
+    end
   end
+
+
+  def human_input # unneeded?
+    gets.chomp.upcase
+  end
+
+  def get_human_placement(ship)
+    puts enter_coordinates(ship)
+    human_input.split(' ')
+  end
+
+  def human_choose_coordinate
+    human_shot = human_input
+
+    if human[:shots_fired].include?(human_shot)
+      puts new_coordinate_prompt
+      return human_choose_coordinate
+    elsif robot[:board].validate_coordinate?(human_shot)
+      human[:shots_fired] << human_shot
+      human_shot
+    else
+      puts valid_coordinate_prompt
+      return human_choose_coordinate
+    end
+  end
+
+
+
+  # Robot player methods ----------------------
 
   # change naming later to customize gameplay.
   # human player can choose to place ships randomly.
@@ -70,23 +87,9 @@ class Game
     end
   end
 
-  def place_robot_ship(ship)
-    coordinates = get_robot_placement(ship)
-
-    if robot[:board].valid_placement?(ship, coordinates)
-      robot[:board].place(ship, coordinates)
-    else
-      place_robot_ship(ship)
-    end
-  end
-
   def get_robot_placement(ship)
     cell_num = random_cell_num
     placement = choose_orientation(ship, cell_num)
-  end
-
-  def choose_orientation(ship, cell_num)
-    zero_or_one == 0 ? orient_right(ship, cell_num) : orient_down(ship, cell_num)
   end
 
   def random_cell_num
@@ -96,6 +99,10 @@ class Game
 
   def zero_or_one
     rand(2)
+  end
+
+  def choose_orientation(ship, cell_num)
+    zero_or_one == 0 ? orient_right(ship, cell_num) : orient_down(ship, cell_num)
   end
 
   # refactor to combine orient_right and orient_down later.
@@ -130,30 +137,26 @@ class Game
     cell_num.delete("^0-9")
   end
 
-  def place_human_ships(ships)
-    ships.each do |ship|
-      place_human_ship(ship)
-      refresh_screen
+  def robot_choose_coordinate
+    robot_shot = random_cell_num
+
+    if robot[:shots_fired].include?(robot_shot)
+      return robot_choose_coordinate
     end
+
+    robot[:shots_fired] << robot_shot
+    robot_shot
   end
 
-  def place_human_ship(ship)
-    coordinates = get_human_placement(ship)
 
-    if human[:board].valid_placement?(ship, coordinates)
-      human[:board].place(ship, coordinates)
-    else
-      place_human_ship(ship)
-    end
-  end
 
-  def human_input
-    gets.chomp.upcase
-  end
 
-  def get_human_placement(ship)
-    puts enter_coordinates(ship)
-    human_input.split(' ')
+  # References the players ---------------------------
+  def setup
+    place_robot_ships(robot[:ships])
+    puts human_turn_prompt
+    puts ship_list
+    place_human_ships(human[:ships])
   end
 
   def turn
@@ -182,36 +185,63 @@ class Game
     # Board is updated after a turn (refresh screen)
   end
 
-  def robot_choose_coordinate
-    robot_shot = random_cell_num
-
-    if robot[:shots_fired].include?(robot_shot)
-      return robot_choose_coordinate
-    end
-
-    robot[:shots_fired] << robot_shot
-    robot_shot
-  end
-
-  def human_choose_coordinate
-    human_shot = human_input
-
-    if human[:shots_fired].include?(human_shot)
-      puts new_coordinate_prompt
-      return human_choose_coordinate
-    elsif robot[:board].validate_coordinate?(human_shot)
-      human[:shots_fired] << human_shot
-      human_shot
-    else
-      puts valid_coordinate_prompt
-      return human_choose_coordinate
-    end
-  end
-
   def player_ships_sunk?(player)
     player[:ships].all? { |ship| ship.sunk? }
-  end 
+  end
 
+
+
+
+
+
+
+
+  # The rest of our game class ---------------------------
+  # Start and setup
+  def start
+    refresh_screen
+    puts menu
+    play if play?
+  end
+
+  # possible module
+  def refresh_screen
+    clear_screen
+    render_screen
+  end
+
+  #possible module (displayable)
+  def clear_screen
+    system 'clear'
+    puts
+  end
+
+  def play?
+    input = gets.chomp.downcase
+    if input == 'p'
+      true
+    elsif input == 'q'
+      puts not_playing
+    else
+      puts invalid_answer
+      play?
+    end
+  end
+
+  def play
+    setup
+    until winner? # make one line
+      turn
+    end
+    puts congratulate_winner(winner)
+  end
+
+  # Turn ---------------------------
+
+
+
+
+  # Display things --------------------
   def render_screen
     puts game_title
     puts
@@ -223,6 +253,18 @@ class Game
     puts
   end
 
+
+  def robot_countdown
+    sleep 2.1
+    puts status = "Calculating trajectory"
+    3.times do
+      refresh_screen
+      puts status += "."
+      sleep 1.2
+    end
+  end
+
+  # End game ------------------------
   def winner
     if player_ships_sunk?(human)
       robot
@@ -238,18 +280,6 @@ class Game
       robot_winner
     end
   end
-
-  def robot_countdown
-    sleep 2.1
-    puts status = "Calculating trajectory"
-    3.times do 
-      refresh_screen
-      puts status += "."
-      sleep 1.2
-    end
-    
-  end
-
   def winner?
     player_ships_sunk?(human) || player_ships_sunk?(robot)
   end
