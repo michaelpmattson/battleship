@@ -31,4 +31,8 @@ class Player
   #     place_human_ship(ship)
   #   end
   # end
+
+  def ships_sunk?
+    ships.all? { |ship| ship.sunk? }
+  end
 end
