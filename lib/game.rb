@@ -150,38 +150,9 @@ class Game
 
 
   # References the players ---------------------------
-  def setup
-    robot.place_ships(robot.ships)
-    puts human_turn_prompt
-    puts ship_list
-    human.place_ships(human.ships)
-  end
 
-  def turn
-    # User board is displayed showing hits, misses, sunken ships, and ships
-    # Computer board is displayed showing hits, misses, and sunken ships
-    # Computer chooses a random shot. does not fire on the same spot twice
 
-    robot_countdown
-    coordinate = robot.choose_coordinate
-    human.board.fire_upon(coordinate)
-    refresh_screen
-    puts human.board.cells[coordinate].report('I', 'my', 'your')
 
-    return if winner?
-    # User can choose a valid coordinate to fire on
-    # Entering invalid coordinate prompts user to enter valid coordinate
-    puts human_choice_prompt
-    coordinate = human.choose_coordinate(robot.board)
-    robot.board.fire_upon(coordinate)
-    refresh_screen
-    puts robot.board.cells[coordinate].report('you', 'your', 'my')
-
-    # Both robot and player shots are reported as a hit, sink, or miss << done
-    # User is informed when they have already fired on a coordinate << done below
-
-    # Board is updated after a turn (refresh screen)
-  end
 
   # def player_ships_sunk?(player)
   #   player.ships.all? { |ship| ship.sunk? }
@@ -234,8 +205,39 @@ class Game
     puts congratulate_winner(winner)
   end
 
-  # Turn ---------------------------
+  def setup
+    robot.place_ships(robot.ships)
+    puts human_turn_prompt
+    puts ship_list
+    human.place_ships(human.ships)
+  end
 
+  # Turn ---------------------------
+  def turn
+    # User board is displayed showing hits, misses, sunken ships, and ships
+    # Computer board is displayed showing hits, misses, and sunken ships
+    # Computer chooses a random shot. does not fire on the same spot twice
+
+    robot_countdown
+    coordinate = robot.choose_coordinate
+    human.board.fire_upon(coordinate)
+    refresh_screen
+    puts human.board.cells[coordinate].report('I', 'my', 'your')
+
+    return if winner?
+    # User can choose a valid coordinate to fire on
+    # Entering invalid coordinate prompts user to enter valid coordinate
+    puts human_choice_prompt
+    coordinate = human.choose_coordinate(robot.board)
+    robot.board.fire_upon(coordinate)
+    refresh_screen
+    puts robot.board.cells[coordinate].report('you', 'your', 'my')
+
+    # Both robot and player shots are reported as a hit, sink, or miss << done
+    # User is informed when they have already fired on a coordinate << done below
+
+    # Board is updated after a turn (refresh screen)
+  end
 
 
 
@@ -251,9 +253,8 @@ class Game
     puts
   end
 
-
   def robot_countdown
-    sleep 2.1
+    sleep 1.8
     puts status = "Calculating trajectory"
     3.times do
       refresh_screen

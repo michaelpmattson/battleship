@@ -6,9 +6,19 @@ class Human < Player
 
   def place_ships(ships)
     ships.each do |ship|
-      coordinates = get_coordinates(ship)
-      place_ship(ship, coordinates)
-      refresh_screen
+      place_ship(ship)
+      # refresh_screen <---- can't do this anymore now that this is in Human
+    end
+  end
+
+  def place_ship(ship)
+    coordinates = get_coordinates(ship) # remove and make a get coordinates method in robot class
+
+    if board.valid_placement?(ship, coordinates) # rest is same
+      board.place(ship, coordinates)
+    else
+      puts valid_coordinates_prompt
+      place_ship(ship)
     end
   end
 

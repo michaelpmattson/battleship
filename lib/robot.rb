@@ -4,8 +4,18 @@ class Robot < Player
 
   def place_ships(ships)
     ships.each do |ship|
-      coordinates = get_coordinates(ship)
-      place_ship(ship, coordinates)
+      # coordinates = get_coordinates(ship)
+      place_ship(ship)
+    end
+  end
+
+  def place_ship(ship)
+    coordinates = get_coordinates(ship) # remove and make a get coordinates method in robot class
+
+    if board.valid_placement?(ship, coordinates) # rest is same
+      board.place(ship, coordinates)
+    else
+      place_ship(ship)
     end
   end
 
