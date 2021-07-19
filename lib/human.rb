@@ -5,16 +5,13 @@ class Human < Player
   include Printable
 
   def place_ships(ships)
-    ships.each do |ship|
-      place_ship(ship)
-      # refresh_screen <---- can't do this anymore now that this is in Human
-    end
+    ships.each { |ship| place_ship(ship) }
   end
 
   def place_ship(ship)
-    coordinates = get_coordinates(ship) # remove and make a get coordinates method in robot class
+    coordinates = get_coordinates(ship)
 
-    if board.valid_placement?(ship, coordinates) # rest is same
+    if board.valid_placement?(ship, coordinates)
       board.place(ship, coordinates)
     else
       puts valid_coordinates_prompt
