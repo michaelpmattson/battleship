@@ -117,36 +117,36 @@ RSpec.describe Cell do
   end
 
   context '#render' do
-    it "returns '.' prior to being fired upon" do
+    it "returns a wave prior to being fired upon" do
       cell_1 = Cell.new("B4")
 
-      expect(cell_1.render).to eq(".")
+      expect(cell_1.render).to eq("🌊")
     end
 
-    it "returns 'M' after fired upon and missed" do
+    it "returns poop after fired upon and missed" do
       cell_1 = Cell.new("B4")
 
-      expect(cell_1.render).to eq(".")
+      expect(cell_1.render).to eq("🌊")
 
       cell_1.fire_upon
 
-      expect(cell_1.render).to eq("M")
+      expect(cell_1.render).to eq("💩")
     end
 
-    it "returns 'H' if fired upon and hit" do
+    it "returns fireball if fired upon and hit" do
       cell_1 = Cell.new("B4")
       cruiser = Ship.new("Cruiser", 3)
 
       cell_1.place_ship(cruiser)
 
-      expect(cell_1.render).to eq(".")
+      expect(cell_1.render).to eq("🌊")
 
       cell_1.fire_upon
 
-      expect(cell_1.render).to eq("H")
+      expect(cell_1.render).to eq("🔥")
     end
 
-    it "returns 'X' if fired upon and sunk" do
+    it "returns skull if fired upon and sunk" do
       cruiser = Ship.new("Cruiser", 3)
       cell_1 = Cell.new("B4")
       cell_2 = Cell.new("B3")
@@ -159,18 +159,18 @@ RSpec.describe Cell do
       cell_1.fire_upon
       cell_2.fire_upon
 
-      expect(cell_1.render).to eq("H")
-      expect(cell_2.render).to eq("H")
-      expect(cell_3.render).to eq(".")
+      expect(cell_1.render).to eq("🔥")
+      expect(cell_2.render).to eq("🔥")
+      expect(cell_3.render).to eq("🌊")
 
       cell_3.fire_upon
 
-      expect(cell_1.render).to eq("X")
-      expect(cell_2.render).to eq("X")
-      expect(cell_3.render).to eq("X")
+      expect(cell_1.render).to eq("💀")
+      expect(cell_2.render).to eq("💀")
+      expect(cell_3.render).to eq("💀")
     end
 
-    it "returns 'S' if true is passed in as optional arg" do
+    it "returns a ship if true is passed in as optional arg" do
       cruiser = Ship.new("Cruiser", 3)
       cell_1 = Cell.new("B1")
       cell_2 = Cell.new("B2")
@@ -181,14 +181,14 @@ RSpec.describe Cell do
       cell_2.place_ship(cruiser)
       cell_3.place_ship(cruiser)
 
-      expect(cell_1.render).to eq(".")
-      expect(cell_2.render).to eq(".")
-      expect(cell_3.render).to eq(".")
+      expect(cell_1.render).to eq("🌊")
+      expect(cell_2.render).to eq("🌊")
+      expect(cell_3.render).to eq("🌊")
 
-      expect(cell_1.render(true)).to eq("S")
-      expect(cell_2.render(true)).to eq("S")
-      expect(cell_3.render(true)).to eq("S")
-      expect(cell_4.render(true)).to eq(".")
+      expect(cell_1.render(true)).to eq("🚢")
+      expect(cell_2.render(true)).to eq("🚢")
+      expect(cell_3.render(true)).to eq("🚢")
+      expect(cell_4.render(true)).to eq("🌊")
     end
   end
 
