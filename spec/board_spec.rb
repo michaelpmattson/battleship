@@ -14,10 +14,10 @@ RSpec.describe Board do
 
       expect(board.cells).to be_a(Hash)
 
-      cell_values = board.cells.values # an array
-      all_cells = cell_values.all? { |value| value.class == Cell } # t or f
+      cell_values = board.cells.values
+      all_cells = cell_values.all? { |value| value.class == Cell }
 
-      expect(all_cells).to be(true) # confirms all values are Cell objects
+      expect(all_cells).to be(true) 
     end
   end
 
@@ -35,6 +35,30 @@ RSpec.describe Board do
       end
     end
   end
+
+
+  # make_row is invoked when Board.new is. 
+  # This test was created prior to initialize, so now...
+  # it does not play nicely 
+  # context '#make_row(alpha, array)' do
+  #   it 'adds a row of cells to hash' do
+  #     board = Board.new
+      
+  #     # expect(board.cells).to eq({})
+      
+  #     alpha = "A"
+  #     array = ["A1", "A2", "A3", "A4"]
+  #     board.make_row(alpha, array)
+      
+  #     # expect(board.cells).not_to eq({})
+      
+  #     expect(board.cells.keys[0..3]).to eq(["A1", "A2", "A3", "A4"])
+      
+  #     board.cells.each do |coordinate, cell|
+  #       expect(cell).to be_instance_of(Cell)
+  #     end
+  #   end
+  # end
 
   context 'alpha_array' do
     it 'makes an array of strings from A to D' do
@@ -57,7 +81,8 @@ RSpec.describe Board do
     end
   end
 
-  context '#add_to_cells(key)' do
+  # same as above
+  # context '#add_to_cells(key)' do
     # it 'adds a new key to hash' do
     #   board = Board.new
     #   key_1 = "A1"
@@ -68,32 +93,7 @@ RSpec.describe Board do
     #
     #   expect(board.cells.keys.include?("A1")).to be(true)
     # end
-
-    # not sure how to test this yet.
-    it 'adds only new Cell objects as values' do
-
-    end
-  end
-
-  context '#make_row(alpha)' do
-    it 'adds a row of cells to hash' do
-      # board = Board.new
-      #
-      # expect(board.cells).to eq({})
-      #
-      # # Below is set to "A"
-      # alpha = board.alpha_array[0]
-      # board.make_row(alpha)
-      #
-      # expect(board.cells).not_to eq({})
-      #
-      # expect(board.cells.keys).to eq(["A1", "A2", "A3", "A4"])
-      #
-      # board.cells.each do |coordinate, cell|
-      #   expect(cell).to be_instance_of(Cell)
-      # end
-    end
-  end
+  # end
 
   context '#validate_coordinate?(coordinate)' do
     it 'validates coordinates' do
@@ -104,15 +104,15 @@ RSpec.describe Board do
     end
   end
 
-  context '#valid_placement?(ship, coordinates)' do
-    it 'validates placement' do
-      board = Board.new
-      cruiser = Ship.new("Cruiser", 3)
-      submarine = Ship.new("Submarine", 2)
+  # context '#valid_placement?(ship, coordinates)' do
+  #   it 'validates placement' do
+  #     board = Board.new
+  #     cruiser = Ship.new("Cruiser", 3)
+  #     submarine = Ship.new("Submarine", 2)
 
-      expect(board.valid_placement?(cruiser, ["A1", "A2"])).to be false
-    end
-  end
+  #     # this test is redundant with below tests
+  #   end
+  # end
 
   context '#valid_length?(ship, coordinates)' do
     it 'valid length' do
@@ -183,7 +183,6 @@ RSpec.describe Board do
     end
   end
 
-  # validates cells are on our board
   context '#valid_cells?(coordinates)' do
     it 'valid cells' do
       board = Board.new
