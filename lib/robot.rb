@@ -1,16 +1,14 @@
 require './lib/player'
 
 class Robot < Player
-
   def place_ships(ships)
     ships.each do |ship|
-      # coordinates = get_coordinates(ship)
       place_ship(ship)
     end
   end
 
   def place_ship(ship)
-    coordinates = get_coordinates(ship) # remove and make a get coordinates method in robot class
+    coordinates = get_coordinates(ship)
 
     if board.valid_placement?(ship, coordinates) # rest is same
       board.place(ship, coordinates)
@@ -37,8 +35,6 @@ class Robot < Player
     zero_or_one == 0 ? orient_right(ship, cell_num) : orient_down(ship, cell_num)
   end
 
-  # refactor to combine orient_right and orient_down later.
-  # num and alpha are the only difference in these blocks.
   def orient_right(ship, cell_num)
     ship_array = []
     alpha = alpha(cell_num)
@@ -71,10 +67,7 @@ class Robot < Player
 
   def choose_coordinate
     robot_shot = random_cell_num
-
-    if shots_fired.include?(robot_shot)
-      return choose_coordinate
-    end
+    return choose_coordinate if shots_fired.include?(robot_shot)
 
     shots_fired << robot_shot
     robot_shot
