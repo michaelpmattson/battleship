@@ -29,15 +29,15 @@ class Cell
 
   def render(arg = false)
     if !empty? && fired_upon? && ship.sunk?
-      "💀"
+      "X"
     elsif !empty? && fired_upon?
-      "🔥"
+      "H"
     elsif !empty? && arg
-      "🚢"
+      "S"
     elsif fired_upon?
-      "💩"
+      "M"
     else
-      "🌊"
+      "."
     end
   end
 
