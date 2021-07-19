@@ -9,12 +9,12 @@ class Board
   end
 
   def make_cells(array)
-    val = array.each { |alpha| make_row(alpha) }
+    val = array.each { |alpha| make_row(alpha, array) }
   end
 
-  def make_row(alpha)
+  def make_row(alpha, array)
     count = 0
-    alpha_array.length.times do
+    array.length.times do
       count += 1
       key = make_key(alpha, count)
       add_to_cells(key)
@@ -70,9 +70,7 @@ class Board
   end
 
   def place(ship, coordinates)
-    coordinates.each do |coordinate|
-      @cells[coordinate].place_ship(ship)
-    end
+    coordinates.each { |coordinate| @cells[coordinate].place_ship(ship) }
   end
 
   def no_ship(coordinates)
