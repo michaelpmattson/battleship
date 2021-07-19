@@ -116,8 +116,8 @@ RSpec.describe Board do
 
   context '#valid_length?(ship, coordinates)' do
     it 'valid length' do
-      board = Board.new
-      cruiser = Ship.new("Cruiser", 3)
+      board     = Board.new
+      cruiser   = Ship.new("Cruiser", 3)
       submarine = Ship.new("Submarine", 2)
 
       expect(board.valid_length?(cruiser, ["A1", "A2", "A3"])).to be true
@@ -194,7 +194,7 @@ RSpec.describe Board do
 
   context '#place(ship, coordinates)' do
     it 'places ship on cells' do
-      board = Board.new
+      board   = Board.new
       cruiser = Ship.new("Cruiser", 3)
 
       board.place(cruiser, ["A1", "A2", "A3"])
@@ -211,7 +211,7 @@ RSpec.describe Board do
 
   context '#no_ship(coordinates)' do
     it 'confirms there is no ship' do
-      board = Board.new
+      board   = Board.new
       cruiser = Ship.new("Cruiser", 3)
 
       coordinates = ["A1", "A2", "A3"]
@@ -232,7 +232,7 @@ RSpec.describe Board do
     end
 
     it 'accepts optional arg true' do
-      board = Board.new
+      board   = Board.new
       cruiser = Ship.new("Cruiser", 3)
 
       board.place(cruiser, ["A1", "A2", "A3"])

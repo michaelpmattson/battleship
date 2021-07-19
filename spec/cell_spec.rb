@@ -32,7 +32,7 @@ RSpec.describe Cell do
 
   context '#place_ship' do
     it 'places a ship on the cell' do
-      cell = Cell.new("B4")
+      cell    = Cell.new("B4")
       cruiser = Ship.new("Cruiser", 3)
 
       cell.place_ship(cruiser)
@@ -41,7 +41,7 @@ RSpec.describe Cell do
     end
 
     it 'fills the cell' do
-      cell = Cell.new("B4")
+      cell    = Cell.new("B4")
       cruiser = Ship.new("Cruiser", 3)
 
       cell.place_ship(cruiser)
@@ -51,7 +51,7 @@ RSpec.describe Cell do
 
     it 'can not place if not empty' do
       cruiser = Ship.new("Cruiser", 3)
-      cell = Cell.new("B4")
+      cell    = Cell.new("B4")
 
       cell.place_ship(cruiser)
 
@@ -68,7 +68,7 @@ RSpec.describe Cell do
   context '#fired_upon?' do
     it 'checks if fired upon' do
       cruiser = Ship.new("Cruiser", 3)
-      cell = Cell.new("B4")
+      cell    = Cell.new("B4")
 
       cell.place_ship(cruiser)
 
@@ -79,7 +79,7 @@ RSpec.describe Cell do
   context '#fire_upon' do
     it 'makes cell fired upon' do
       cruiser = Ship.new("Cruiser", 3)
-      cell = Cell.new("B4")
+      cell    = Cell.new("B4")
 
       cell.place_ship(cruiser)
       cell.fire_upon
@@ -89,7 +89,7 @@ RSpec.describe Cell do
 
     it 'makes ship health decrease by 1' do
       cruiser = Ship.new("Cruiser", 3)
-      cell = Cell.new("B4")
+      cell    = Cell.new("B4")
 
       cell.place_ship(cruiser)
 
@@ -102,7 +102,7 @@ RSpec.describe Cell do
 
     it 'can not fire upon same cell twice' do
       cruiser = Ship.new("Cruiser", 3)
-      cell = Cell.new("B4")
+      cell    = Cell.new("B4")
 
       cell.place_ship(cruiser)
 
@@ -117,40 +117,40 @@ RSpec.describe Cell do
   end
 
   context '#render' do
-    it "returns a wave prior to being fired upon" do
+    it "returns '.' prior to being fired upon" do
       cell_1 = Cell.new("B4")
 
-      expect(cell_1.render).to eq("🌊")
+      expect(cell_1.render).to eq(".")
     end
 
     it "returns poop after fired upon and missed" do
       cell_1 = Cell.new("B4")
 
-      expect(cell_1.render).to eq("🌊")
+      expect(cell_1.render).to eq(".")
 
       cell_1.fire_upon
 
-      expect(cell_1.render).to eq("💩")
+      expect(cell_1.render).to eq("M")
     end
 
-    it "returns fireball if fired upon and hit" do
-      cell_1 = Cell.new("B4")
+    it "returns 'H' if fired upon and hit" do
+      cell_1  = Cell.new("B4")
       cruiser = Ship.new("Cruiser", 3)
 
       cell_1.place_ship(cruiser)
 
-      expect(cell_1.render).to eq("🌊")
+      expect(cell_1.render).to eq(".")
 
       cell_1.fire_upon
 
-      expect(cell_1.render).to eq("🔥")
+      expect(cell_1.render).to eq("H")
     end
 
-    it "returns skull if fired upon and sunk" do
+    it "returns 'X' if fired upon and sunk" do
       cruiser = Ship.new("Cruiser", 3)
-      cell_1 = Cell.new("B4")
-      cell_2 = Cell.new("B3")
-      cell_3 = Cell.new("B2")
+      cell_1  = Cell.new("B4")
+      cell_2  = Cell.new("B3")
+      cell_3  = Cell.new("B2")
 
       cell_1.place_ship(cruiser)
       cell_2.place_ship(cruiser)
@@ -159,36 +159,36 @@ RSpec.describe Cell do
       cell_1.fire_upon
       cell_2.fire_upon
 
-      expect(cell_1.render).to eq("🔥")
-      expect(cell_2.render).to eq("🔥")
-      expect(cell_3.render).to eq("🌊")
+      expect(cell_1.render).to eq("H")
+      expect(cell_2.render).to eq("H")
+      expect(cell_3.render).to eq(".")
 
       cell_3.fire_upon
 
-      expect(cell_1.render).to eq("💀")
-      expect(cell_2.render).to eq("💀")
-      expect(cell_3.render).to eq("💀")
+      expect(cell_1.render).to eq("X")
+      expect(cell_2.render).to eq("X")
+      expect(cell_3.render).to eq("X")
     end
 
-    it "returns a ship if true is passed in as optional arg" do
+    it "returns a 'S' if true is passed in as optional arg" do
       cruiser = Ship.new("Cruiser", 3)
-      cell_1 = Cell.new("B1")
-      cell_2 = Cell.new("B2")
-      cell_3 = Cell.new("B3")
-      cell_4 = Cell.new("B4")
+      cell_1  = Cell.new("B1")
+      cell_2  = Cell.new("B2")
+      cell_3  = Cell.new("B3")
+      cell_4  = Cell.new("B4")
 
       cell_1.place_ship(cruiser)
       cell_2.place_ship(cruiser)
       cell_3.place_ship(cruiser)
 
-      expect(cell_1.render).to eq("🌊")
-      expect(cell_2.render).to eq("🌊")
-      expect(cell_3.render).to eq("🌊")
+      expect(cell_1.render).to eq(".")
+      expect(cell_2.render).to eq(".")
+      expect(cell_3.render).to eq(".")
 
-      expect(cell_1.render(true)).to eq("🚢")
-      expect(cell_2.render(true)).to eq("🚢")
-      expect(cell_3.render(true)).to eq("🚢")
-      expect(cell_4.render(true)).to eq("🌊")
+      expect(cell_1.render(true)).to eq("S")
+      expect(cell_2.render(true)).to eq("S")
+      expect(cell_3.render(true)).to eq("S")
+      expect(cell_4.render(true)).to eq(".")
     end
   end
 
@@ -203,7 +203,7 @@ RSpec.describe Cell do
     end
 
     it "returns a hit" do
-      cell_1 = Cell.new("B4")
+      cell_1  = Cell.new("B4")
       cruiser = Ship.new("Cruiser", 3)
 
       cell_1.place_ship(cruiser)
@@ -216,9 +216,9 @@ RSpec.describe Cell do
 
     it "returns sunk" do
       cruiser = Ship.new("Cruiser", 3)
-      cell_1 = Cell.new("B4")
-      cell_2 = Cell.new("B3")
-      cell_3 = Cell.new("B2")
+      cell_1  = Cell.new("B4")
+      cell_2  = Cell.new("B3")
+      cell_3  = Cell.new("B2")
 
       cell_1.place_ship(cruiser)
       cell_2.place_ship(cruiser)

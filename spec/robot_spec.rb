@@ -11,7 +11,7 @@ RSpec.describe Robot do
 
    context '#place_robot_ships(ships)' do
     it 'places robot ship only if possible' do
-      game    = Game.new
+      game  = Game.new
       ships = game.robot[:ships]
 
       game.place_robot_ships(ships)
@@ -25,7 +25,7 @@ RSpec.describe Robot do
 
   context '#random_cell_num' do
     it 'random cell' do
-      game    = Game.new
+      game = Game.new
       game.random_cell_num
       # expect(game.random_cell_num).to eq(  i dunnoooooooo
     end
@@ -34,7 +34,7 @@ RSpec.describe Robot do
   context '#zero_or_one' do
     it 'is zero or one' do
       game = Game.new
-      num = game.zero_or_one
+      num  = game.zero_or_one
 
       expect(num == 0 || num == 1).to be(true)
     end
