@@ -30,22 +30,20 @@ RSpec.describe Ship do
       cruiser = Ship.new("Cruiser", 3)
 
       expect(cruiser.health).to eq(3)
+      expect(cruiser.length).to eq(3)
+      
+      cruiser.hit 
 
-      submarine = Ship.new("Submarine", 2)
-
-      expect(submarine.health).to eq(2)
+      expect(cruiser.health).to eq(2)
+      expect(cruiser.length).to eq(3)
     end
   end
 
   context '#sunk?' do
-    it 'starts as false' do
+    it 'shows when sunk' do
       cruiser = Ship.new("Cruiser", 3)
 
       expect(cruiser.sunk?).to be(false)
-    end
-
-    it 'text' do
-      cruiser = Ship.new("Cruiser", 3)
 
       cruiser.hit
       cruiser.hit
