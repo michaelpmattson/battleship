@@ -1,11 +1,17 @@
 require './lib/cell'
 
 class Board
-  attr_reader :cells
+  attr_reader :cells,
+              :alpha_array
 
   def initialize
     @cells = {}
+    @alpha_array = alpha_array # default ["A", "B", "C", "D"]
     make_cells(alpha_array)
+  end
+
+  def clear
+    @cells.clear
   end
 
   def make_cells(array)
@@ -21,8 +27,10 @@ class Board
     end
   end
 
-  def alpha_array
-    ["A", "B", "C", "D"]
+  def alpha_array(length = 4)
+    num = length - 1
+    last = ("A".ord + num).chr
+    @alpha_array = ("A"..last).to_a
   end
 
   def make_key(alpha, count)
@@ -49,6 +57,8 @@ class Board
     ship.length == coordinates.length
   end
 
+  # Indexes are coordinate string indexes, i.e. "A1", "A2"
+  # This method will only work for 2 character strings.
   def consecutive_coordinates?(coordinates)
     if coordinates.all? { |coordinate| coordinate[0] == coordinates[0][0] }
       consecutive_numbers?(coordinates)
@@ -87,7 +97,7 @@ class Board
 
   def other_rows(arg = false)
     string = ""
-    alpha_array.each do |alpha|
+    @alpha_array.each do |alpha|
       string += "#{alpha} "
       nums_array.each do |num|
         if cells[alpha + num.to_s].ship.nil?
@@ -102,7 +112,7 @@ class Board
   end
 
   def nums_array
-    (1..alpha_array.length).to_a
+    (1..@alpha_array.length).to_a
   end
 
   def fire_upon(coordinate)
