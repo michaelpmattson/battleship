@@ -19,6 +19,14 @@ module Printable
     "Welcome to BATTLESHIP\nEnter p to play. Enter q to quit."
   end
 
+  def board_var_or_def
+    "Would you like to adjust the board size before beginning? (y/n)"
+  end
+
+  def board_size
+    "Please enter a number between 4 and 9 for the board width."
+  end
+
   def invalid_answer
     "Invalid choice. Enter p to play. Enter q to quit."
   end
