@@ -55,8 +55,8 @@ class Game
     elsif input == 'n'
       false
     else
-      puts invalid_answer
-      variable_board?
+      puts board_var_or_def
+      return variable_board?
     end
   end
 
@@ -65,7 +65,7 @@ class Game
     width = gets.chomp.to_i
     unless width > 3 && width < 10
       refresh_screen
-      get_board_width
+      return get_board_width
     end
     width
   end
