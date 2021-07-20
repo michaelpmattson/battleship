@@ -15,4 +15,10 @@ class Player
   def ships_sunk?
     ships.all? { |ship| ship.sunk? }
   end
+
+  # player board cell values will be overwritten in the board class.
+  def set_board_width(board_width)
+    user_alpha_array = board.alpha_array(board_width)
+    board.make_cells(user_alpha_array)
+  end
 end

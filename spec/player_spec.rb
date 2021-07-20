@@ -40,4 +40,10 @@ RSpec.describe Player do
       expect(player.ships_sunk?).to be(true)
     end
   end
+
+  # context '#set_board_width(board_width)' do
+  #   it 'calls make_cells using user defined board width' do
+  #     # there is no return here, just a script.
+  #   end
+  # end
 end
