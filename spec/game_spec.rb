@@ -35,6 +35,45 @@ RSpec.describe Game do
   #   # lol i have no idea how to test this.
   # end
 
+  context '#variable_board?' do
+    it 'verifies if user wants variable board' do
+      game = Game.new
+
+      allow(game).to receive(:gets).and_return("y\n")
+
+      expect(game.variable_board?).to be(true)
+
+      allow(game).to receive(:gets).and_return("n\n")
+
+      expect(game.variable_board?).to be(false)
+
+      # can't test the else in this method
+    end
+  end
+
+  context '#get_board_width' do
+    it 'gets board width from user' do
+      game = Game.new
+
+      # test puts a string to the terminal as part of method.
+      # not sure how to ignore the puts.
+
+      allow(game).to receive(:gets).and_return("4\n")
+
+      expect(game.get_board_width).to eq(4)
+
+      # can't test the loop section here as it is recursive.
+
+      allow(game).to receive(:gets).and_return("9\n")
+
+      expect(game.get_board_width).to eq(9)
+    end
+  end
+
+  # context '#set_board_width(board_width)' do
+  #   # nope
+  # end
+
   # context '#setup' do
   #   # lol i have no idea how to test this.
   # end

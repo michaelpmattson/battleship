@@ -17,7 +17,25 @@ RSpec.describe Board do
       cell_values = board.cells.values
       all_cells = cell_values.all? { |value| value.class == Cell }
 
-      expect(all_cells).to be(true) 
+      expect(all_cells).to be(true)
+    end
+
+    it 'has a default alpha_array' do
+      board = Board.new
+
+      expect(board.alpha_array).to eq(["A", "B", "C", "D"])
+    end
+  end
+
+  context '#clear' do
+    it 'emptys the cell hash' do
+      board = Board.new
+
+      expect(board.cells).to_not eq({})
+
+      board.clear
+
+      expect(board.cells).to eq({})
     end
   end
 
@@ -36,24 +54,23 @@ RSpec.describe Board do
     end
   end
 
-
-  # make_row is invoked when Board.new is. 
+  # make_row is invoked when Board.new is.
   # This test was created prior to initialize, so now...
-  # it does not play nicely 
+  # it does not play nicely
   # context '#make_row(alpha, array)' do
   #   it 'adds a row of cells to hash' do
   #     board = Board.new
-      
+
   #     # expect(board.cells).to eq({})
-      
+
   #     alpha = "A"
   #     array = ["A1", "A2", "A3", "A4"]
   #     board.make_row(alpha, array)
-      
+
   #     # expect(board.cells).not_to eq({})
-      
+
   #     expect(board.cells.keys[0..3]).to eq(["A1", "A2", "A3", "A4"])
-      
+
   #     board.cells.each do |coordinate, cell|
   #       expect(cell).to be_instance_of(Cell)
   #     end
@@ -66,6 +83,13 @@ RSpec.describe Board do
       alpha = board.alpha_array
 
       expect(alpha).to eq(["A", "B", "C", "D"])
+    end
+
+    it 'can take an optional arg' do
+      board = Board.new
+      alpha = board.alpha_array(9)
+
+      expect(alpha).to eq(["A", "B", "C", "D", "E", "F", "G", "H", "I"])
     end
   end
 
@@ -246,6 +270,11 @@ RSpec.describe Board do
       board = Board.new
 
       expect(board.top_row).to eq("  1 2 3 4 \n")
+
+      # ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
+      board.alpha_array(9)
+
+      expect(board.top_row).to eq("  1 2 3 4 5 6 7 8 9 \n")
     end
   end
 
@@ -254,6 +283,12 @@ RSpec.describe Board do
       board = Board.new
 
       expect(board.other_rows).to eq("A . . . . \nB . . . . \nC . . . . \nD . . . . \n")
+
+      # ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
+      array = board.alpha_array(9)
+      board.make_cells(array)
+
+      expect(board.other_rows).to eq("A . . . . . . . . . \nB . . . . . . . . . \nC . . . . . . . . . \nD . . . . . . . . . \nE . . . . . . . . . \nF . . . . . . . . . \nG . . . . . . . . . \nH . . . . . . . . . \nI . . . . . . . . . \n")
     end
   end
 
@@ -262,6 +297,11 @@ RSpec.describe Board do
       board = Board.new
 
       expect(board.nums_array).to eq([1, 2, 3, 4])
+
+      # ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
+      board.alpha_array(9)
+
+      expect(board.nums_array).to eq([1, 2, 3, 4, 5, 6, 7, 8, 9])
     end
   end
 end

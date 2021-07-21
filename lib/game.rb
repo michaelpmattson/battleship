@@ -48,7 +48,39 @@ class Game
     puts congratulate_winner(winner)
   end
 
+  def variable_board?
+    input = gets.chomp.downcase
+    if input == 'y'
+      true
+    elsif input == 'n'
+      false
+    else
+      puts board_var_or_def
+      return variable_board?
+    end
+  end
+
+  def get_board_width
+    puts board_size
+    width = gets.chomp.to_i
+    unless width > 3 && width < 10
+      refresh_screen
+      return get_board_width
+    end
+    width
+  end
+
+  def set_board_widths(board_width)
+    robot.set_board_width(board_width)
+    human.set_board_width(board_width)
+    refresh_screen
+  end
+
   def setup
+    refresh_screen
+    puts board_var_or_def
+    set_board_widths(get_board_width) if variable_board?
+    refresh_screen
     robot.place_ships(robot.ships)
     puts human_turn_prompt
     puts ship_list
