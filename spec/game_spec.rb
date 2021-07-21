@@ -19,21 +19,15 @@ RSpec.describe Game do
     end
   end
 
-  # context '#start' do
-  #   # lol i have no idea how to test this.
-  # end
+  context '#clear_screen' do
+    # don't know how to test system 'clear'
 
-  # context '#display_clear' do
-  #   # lol i have no idea how to test this.
-  # end
+    it 'returns nil' do
+      game = Game.new
 
-  # context '#play?' do
-  #   # lol i have no idea how to test this.
-  # end
-
-  # context '#play' do
-  #   # lol i have no idea how to test this.
-  # end
+      expect(game.clear_screen).to be_nil
+    end
+  end
 
   context '#variable_board?' do
     it 'verifies if user wants variable board' do
@@ -67,40 +61,6 @@ RSpec.describe Game do
       allow(game).to receive(:gets).and_return("9\n")
 
       expect(game.get_board_width).to eq(9)
-    end
-  end
-
-  # context '#set_board_width(board_width)' do
-  #   # nope
-  # end
-
-  # context '#setup' do
-  #   # lol i have no idea how to test this.
-  # end
-
-  # context '#turn' do
-  #   xit 'displays the boards' do
-  #     # in the terminal.
-  #   end
-  # end
-
-  context '#congratulate_winner(winner)' do
-    it 'can congratulate human' do
-      game   = Game.new
-      human  = game.human
-      robot  = game.robot
-      winner = human
-
-      expect(game.congratulate_winner(winner)).to eq(game.human_winner)
-    end
-
-    it 'can congratulate robot' do
-      game   = Game.new
-      human  = game.human
-      robot  = game.robot
-      winner = robot
-
-      expect(game.congratulate_winner(winner)).to eq(game.robot_winner)
     end
   end
 
@@ -149,6 +109,70 @@ RSpec.describe Game do
       expect(game.human.ships_sunk?).to be(true)
 
       expect(game.winner).to eq(game.robot)
+    end
+  end
+
+  context '#congratulate_winner(winner)' do
+    it 'can congratulate human' do
+      game   = Game.new
+      human  = game.human
+      robot  = game.robot
+      winner = human
+
+      expect(game.congratulate_winner(winner)).to eq(game.human_winner)
+    end
+
+    it 'can congratulate robot' do
+      game   = Game.new
+      human  = game.human
+      robot  = game.robot
+      winner = robot
+
+      expect(game.congratulate_winner(winner)).to eq(game.robot_winner)
+    end
+  end
+
+  context '#winner?' do
+    it 'true if robot ships sunk' do
+      game      = Game.new
+      human     = game.human
+      robot     = game.robot
+      cruiser   = robot.ships[0]
+      submarine = robot.ships[1]
+      robot.board.place(cruiser, ["A1", "A2", "A3"])
+      robot.board.place(submarine, ["B3", "B4"])
+
+      robot.board.fire_upon("A1")
+      robot.board.fire_upon("A2")
+      robot.board.fire_upon("A3")
+
+      expect(game.winner?).to be(false)
+
+      robot.board.fire_upon("B3")
+      robot.board.fire_upon("B4")
+
+      expect(game.winner?).to be(true)
+    end
+
+    it 'true if human ships sunk' do
+      game      = Game.new
+      human     = game.human
+      robot     = game.robot
+      cruiser   = human.ships[0]
+      submarine = human.ships[1]
+      human.board.place(cruiser, ["A1", "A2", "A3"])
+      human.board.place(submarine, ["B3", "B4"])
+
+      human.board.fire_upon("A1")
+      human.board.fire_upon("A2")
+      human.board.fire_upon("A3")
+
+      expect(game.winner?).to be(false)
+
+      human.board.fire_upon("B3")
+      human.board.fire_upon("B4")
+
+      expect(game.winner?).to be(true)
     end
   end
 end
