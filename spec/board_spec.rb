@@ -120,7 +120,7 @@ RSpec.describe Board do
   # end
 
   context '#validate_coordinate?(coordinate)' do
-    it 'validates coordinates' do
+    it 'validates coordinate' do
       board = Board.new
 
       expect(board.validate_coordinate?("A1")).to be true
@@ -128,15 +128,36 @@ RSpec.describe Board do
     end
   end
 
-  # context '#valid_placement?(ship, coordinates)' do
-  #   it 'validates placement' do
-  #     board = Board.new
-  #     cruiser = Ship.new("Cruiser", 3)
-  #     submarine = Ship.new("Submarine", 2)
+  context '#valid_cells?' do
+    it 'validates cells' do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+      submarine = Ship.new("Submarine", 2)
 
-  #     # this test is redundant with below tests
-  #   end
-  # end
+      expect(board.valid_cells?(["A3", "A4", "A5"])).to be false
+      expect(board.valid_cells?(["B1", "C1", "D1"])).to be true
+    end
+  end
+
+  context '#valid_placement?(ship, coordinates)' do
+    it 'validates placement' do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+      submarine = Ship.new("Submarine", 2)
+
+
+      expect(board.valid_placement?(cruiser, ["A2", "A3"])).to be false
+      expect(board.valid_placement?(cruiser, ["A1", "A2", "A4"])).to be false
+      expect(board.valid_placement?(cruiser, ["A1", "D1", "C1"])).to be false
+      expect(board.valid_placement?(cruiser, ["A3", "A2", "A1"])).to be false
+      board.place(cruiser, ["A1", "A2", "A3"])
+      expect(board.valid_placement?(cruiser, ["A1", "A2", "A3"])).to be false
+
+
+      expect(board.valid_placement?(cruiser, ["D2", "D3", "D4"])).to be true
+      expect(board.valid_placement?(cruiser, ["B1", "C1", "D1"])).to be true
+    end
+  end
 
   context '#valid_length?(ship, coordinates)' do
     it 'valid length' do
